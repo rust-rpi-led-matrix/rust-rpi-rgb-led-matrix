@@ -133,6 +133,13 @@ impl LedMatrixOptions {
         }
     }
 
+    pub fn set_panel_type(&mut self, panel_type: &str) {
+        unsafe {
+            let _ = CString::from_raw(self.panel_type);
+            self.panel_type = CString::new(panel_type).unwrap().into_raw();
+        }
+    }
+
     pub fn set_hardware_pulsing(&mut self, enable: bool) {
         if enable {
             self.disable_hardware_pulsing = 0;
