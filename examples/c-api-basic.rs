@@ -11,7 +11,7 @@ fn main() {
             .version(crate_version!())
             .arg(
                 Arg::from_usage("--loops=[LOOPS] 'number of cycles to spin the line'")
-                    .default_value("5")
+                    .default_value("5"),
             ),
     );
     let matches = app.get_matches();

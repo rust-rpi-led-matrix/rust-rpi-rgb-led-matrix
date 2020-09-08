@@ -18,8 +18,8 @@ fn main() {
             .version(crate_version!())
             .arg(
                 Arg::from_usage("--loops=[LOOPS] 'number of cycles to spin the line'")
-                    .default_value("5")
-                ),
+                    .default_value("5"),
+            ),
     );
     let matches = app.get_matches();
     let (options, rt_options) = args::matrix_options_from_args(&matches);
@@ -40,7 +40,7 @@ fn main() {
     let (width, height) = canvas.canvas_size();
     Rectangle::new(
         Point::zero(),
-        Point::new(width as i32 - 1, height as i32 - 1)
+        Point::new(width as i32 - 1, height as i32 - 1),
     )
     .into_styled(thin_stroke)
     .draw(&mut canvas)
