@@ -105,7 +105,7 @@ impl Drop for LedFont {
 }
 
 impl LedCanvas {
-    pub fn size(&self) -> (i32, i32) {
+    pub fn canvas_size(&self) -> (i32, i32) {
         let (mut width, mut height): (c_int, c_int) = (0, 0);
         unsafe {
             c::led_canvas_get_size(
@@ -227,7 +227,7 @@ where
     }
 
     fn size(&self) -> Size {
-        let size = self.size();
+        let size = self.canvas_size();
         Size::new(size.0 as u32, size.1 as u32)
     }
 
@@ -261,17 +261,17 @@ mod tests {
     }
 
     #[test]
-    fn canvas_size() {
+    fn size() {
         let matrix = led_matrix();
         let canvas = matrix.canvas();
-        assert_eq!(canvas.size(), (64, 32));
+        assert_eq!(canvas.canvas_size(), (64, 32));
     }
 
     #[test]
     fn draw_line() {
         let matrix = led_matrix();
         let mut canvas = matrix.canvas();
-        let (width, height) = canvas.size();
+        let (width, height) = canvas.canvas_size();
         let mut color = LedColor {
             red: 127,
             green: 0,
@@ -290,7 +290,7 @@ mod tests {
     fn draw_circle() {
         let matrix = led_matrix();
         let mut canvas = matrix.canvas();
-        let (width, height) = canvas.size();
+        let (width, height) = canvas.canvas_size();
         let mut color = LedColor {
             red: 127,
             green: 0,
@@ -318,7 +318,7 @@ mod tests {
             green: 127,
             blue: 0,
         };
-        let (width, height) = canvas.size();
+        let (width, height) = canvas.canvas_size();
         let text_width = 10 * 9;
         let baseline = height / 2;
 

@@ -21,6 +21,8 @@ jobs:
       run: cargo build --verbose
     - name: Build - No Default Features
       run: cargo build --verbose --no-default-features
+    - name: Build - Examples
+      run: cargo build --verbose --all-features --examples
 
   clippy:
     runs-on: ubuntu-latest

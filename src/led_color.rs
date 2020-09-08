@@ -1,7 +1,7 @@
 #[cfg(feature = "embeddedgraphics")]
 use embedded_graphics::pixelcolor::{
     raw::RawU24, Bgr555, Bgr565, Bgr888, Gray2, Gray4, Gray8, GrayColor, PixelColor, Rgb555,
-    Rgb565, Rgb888, RgbColor,
+    Rgb565, Rgb888, RgbColor, BinaryColor,
 };
 
 #[derive(Clone, Copy, PartialEq)]
@@ -111,6 +111,18 @@ impl From<Rgb888> for LedColor {
             red: p.r(),
             green: p.g(),
             blue: p.b(),
+        }
+    }
+}
+
+#[cfg(feature = "embeddedgraphics")]
+impl From<BinaryColor> for LedColor {
+    fn from(p: BinaryColor) -> Self {
+        let value = if p == BinaryColor::On { std::u8::MAX } else { 0 };
+        Self {
+            red: value,
+            green: value,
+            blue: value,
         }
     }
 }

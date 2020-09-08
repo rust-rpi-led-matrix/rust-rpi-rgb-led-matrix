@@ -9,6 +9,7 @@ fn main() {
             .version(crate_version!()),
     );
     let matches = app.get_matches();
-    let options = args::matrix_options_from_args(&matches);
-    println!("{:?}", options);
+    let (options, rt_options) = args::matrix_options_from_args(&matches);
+    println!("Options: {:?}", options);
+    println!("Runtime Options: {:?}", rt_options);
 }

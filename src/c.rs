@@ -10,7 +10,7 @@ pub enum LedFont {}
 
 #[allow(dead_code)]
 impl LedCanvas {
-    pub fn size(&self) -> (i32, i32) {
+    pub fn canvas_size(&self) -> (i32, i32) {
         let (mut width, mut height): (c_int, c_int) = (0, 0);
         unsafe {
             led_canvas_get_size(self, &mut width as *mut c_int, &mut height as *mut c_int);
