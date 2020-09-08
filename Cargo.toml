@@ -32,6 +32,14 @@ clap = { version = "2.33", optional = true }
 name = "arguments"
 required-features = ["args"]
 
+[[example]]
+name = "c-api-basic"
+required-features = ["args"]
+
+[[example]]
+name = "embedded-graphics-basic"
+required-features = ["args", "embeddedgraphics"]
+
 [profile.release]
 codegen-units = 1
 debug = true
