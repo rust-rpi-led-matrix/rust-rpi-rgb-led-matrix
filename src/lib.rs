@@ -11,12 +11,14 @@ use embedded_graphics::{drawable::Pixel, geometry::Size, pixelcolor::PixelColor,
 use libc::c_int;
 use std::ffi::CString;
 use std::path::Path;
+use std::marker::PhantomData;
 
 pub use c::{LedMatrixOptions, LedRuntimeOptions};
 pub use led_color::LedColor;
 
-pub struct LedCanvas {
+pub struct LedCanvas<C> {
     handle: *mut c::LedCanvas,
+    phantom: PhantomData<C>,
 }
 
 pub struct LedMatrix {
@@ -28,7 +30,8 @@ pub struct LedFont {
     handle: *mut c::LedFont,
 }
 
-impl LedMatrix {
+impl LedMatrix
+{
     pub fn new(
         options: Option<LedMatrixOptions>,
         rt_options: Option<LedRuntimeOptions>,
@@ -53,22 +56,31 @@ impl LedMatrix {
         }
     }
 
-    pub fn canvas(&self) -> LedCanvas {
+    pub fn canvas<C>(&self) -> LedCanvas<C> {
         let handle = unsafe { c::led_matrix_get_canvas(self.handle) };
 
-        LedCanvas { handle }
+        LedCanvas { 
+            handle: handle, 
+            phantom: PhantomData 
+        }
     }
 
-    pub fn offscreen_canvas(&self) -> LedCanvas {
+    pub fn offscreen_canvas<C>(&self) -> LedCanvas<C> {
         let handle = unsafe { c::led_matrix_create_offscreen_canvas(self.handle) };
 
-        LedCanvas { handle }
+        LedCanvas { 
+            handle: handle, 
+            phantom: PhantomData 
+        }
     }
 
-    pub fn swap(&self, canvas: LedCanvas) -> LedCanvas {
+    pub fn swap<C>(&self, canvas: LedCanvas<C>) -> LedCanvas<C> {
         let handle = unsafe { c::led_matrix_swap_on_vsync(self.handle, canvas.handle) };
 
-        LedCanvas { handle }
+        LedCanvas { 
+            handle: handle, 
+            phantom: PhantomData 
+        }
     }
 }
 
@@ -104,7 +116,7 @@ impl Drop for LedFont {
     }
 }
 
-impl LedCanvas {
+impl<C> LedCanvas<C> {
     pub fn canvas_size(&self) -> (i32, i32) {
         let (mut width, mut height): (c_int, c_int) = (0, 0);
         unsafe {
@@ -214,7 +226,7 @@ impl LedCanvas {
 }
 
 #[cfg(feature = "embeddedgraphics")]
-impl<C> DrawTarget<C> for LedCanvas
+impl<C> DrawTarget<C> for LedCanvas<C>
 where
     C: Into<LedColor> + PixelColor,
 {

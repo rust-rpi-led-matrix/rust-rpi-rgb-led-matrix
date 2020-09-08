@@ -34,7 +34,8 @@ fn main() {
 
     // Draw a 3px wide outline around the matrix.
     // let display_size = canvas.size();
-    let (width, height) = canvas.canvas_size();
+    let s = canvas.size();
+    let (width, height) = (s.width as i32, s.height as i32);
     Rectangle::new(
         Point::zero(),
         Point::new(
