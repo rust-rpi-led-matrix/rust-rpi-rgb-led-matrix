@@ -53,9 +53,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.1.1] - 2018-02-12
 
--
+- Change LedCanvas to a struct
 
-## [0.1.0] - 2018-02-01
+## [0.1.0] - 2018-02-12
 
 - Initial release
 
