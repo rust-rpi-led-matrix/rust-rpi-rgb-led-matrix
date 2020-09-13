@@ -11,7 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- @BroderickCarlin implemented [embedded-graphics][embedded-graphics] support, behind a feature
+- Implemented [embedded-graphics][embedded-graphics] support, behind a feature
 - Command line parsing tools using clap
 - Example usage of the library
 - Documentation of the public API
