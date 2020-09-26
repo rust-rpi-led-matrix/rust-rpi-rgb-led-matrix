@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.2] - 2020-09-25
+
+- Version bump to (hopefully) actually fix [docs.rs][docs-rs-link] not rendering optional clap feature
+
 ## [0.2.1] - 2020-09-13
 
 - Version bump to fix [docs.rs][docs-rs-link] not rendering optional clap feature

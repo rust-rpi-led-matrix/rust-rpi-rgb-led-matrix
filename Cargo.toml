@@ -1,7 +1,7 @@
 [package]
 name = "rpi-led-matrix"
 description = "Bindings for Hzeller's RPi-RGB-Led-Matrix"
-version = "0.2.1"
+version = "0.2.2"
 authors = [
     "Vincent Pasquier <vincentpasquier@posteo.net>",
     "Tyler Holmes <tyler@holmesengineering.com>",
@@ -39,6 +39,9 @@ required-features = ["args"]
 [[example]]
 name = "embedded-graphics-basic"
 required-features = ["args", "embeddedgraphics"]
+
+[package.metadata.docs.rs]
+all-features = true
 
 [profile.release]
 codegen-units = 1
