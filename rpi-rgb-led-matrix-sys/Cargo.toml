@@ -1,0 +1,27 @@
+[package]
+name = "rpi-rgb-led-matrix-sys"
+version = "0.1.0"
+edition = "2018"
+description = "system library for the rpi-rgb-led-matrix C++ library"
+links = "rgbmatrix"
+build = "build.rs"
+license = "GPL-3.0"
+
+[dependencies]
+libc = "0.2"
+
+[build-dependencies]
+gcc = "0.3"
+copy_dir = "0.1"
+
+[features]
+default = []
+
+[package.metadata.docs.rs]
+all-features = true
+
+[profile.release]
+codegen-units = 1
+debug = true
+lto = "fat"
+opt-level = 2
