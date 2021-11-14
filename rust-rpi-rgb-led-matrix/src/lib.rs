@@ -20,7 +20,6 @@ extern crate libc;
 #[cfg(feature = "args")]
 #[deny(missing_docs)]
 pub mod args;
-mod c;
 #[deny(missing_docs)]
 mod canvas;
 #[deny(missing_docs)]
@@ -32,9 +31,10 @@ mod matrix;
 #[deny(missing_docs)]
 mod options;
 
+// import all of the C FFI functions
+pub(crate) use rpi_rgb_led_matrix_sys as ffi;
+
 // re-export objects to the root
-#[doc(inline)]
-pub use c::{LedMatrixOptions, LedRuntimeOptions};
 #[doc(inline)]
 pub use canvas::LedCanvas;
 #[doc(inline)]
@@ -43,3 +43,5 @@ pub use font::LedFont;
 pub use led_color::LedColor;
 #[doc(inline)]
 pub use matrix::LedMatrix;
+#[doc(inline)]
+pub use options::{LedMatrixOptions, LedRuntimeOptions};

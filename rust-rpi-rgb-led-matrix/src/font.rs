@@ -1,11 +1,11 @@
 use std::ffi::CString;
 use std::path::Path;
 
-use crate::c;
+use crate::ffi;
 
 /// The Rust handle for LedFont.
 pub struct LedFont {
-    pub(crate) handle: *mut c::LedFont,
+    pub(crate) handle: *mut ffi::CLedFont,
 }
 
 impl LedFont {
@@ -17,7 +17,7 @@ impl LedFont {
         };
         let cstring = CString::new(string).unwrap();
 
-        let handle = unsafe { c::load_font(cstring.as_ptr()) };
+        let handle = unsafe { ffi::load_font(cstring.as_ptr()) };
 
         if handle.is_null() {
             Err("Couldn't load font")
@@ -29,7 +29,7 @@ impl LedFont {
 
 impl Drop for LedFont {
     fn drop(&mut self) {
-        unsafe { c::delete_font(self.handle) }
+        unsafe { ffi::delete_font(self.handle) }
     }
 }
 

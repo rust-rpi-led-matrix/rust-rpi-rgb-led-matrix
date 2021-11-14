@@ -1,4 +1,4 @@
-use crate::c;
+use crate::ffi;
 use crate::{LedCanvas, LedColor, LedMatrixOptions, LedRuntimeOptions};
 #[cfg(feature = "embeddedgraphics")]
 use embedded_graphics::{drawable::Pixel, geometry::Size, pixelcolor::PixelColor, DrawTarget};
@@ -10,7 +10,7 @@ use embedded_graphics::{drawable::Pixel, geometry::Size, pixelcolor::PixelColor,
 /// let matrix = LedMatrix::new(None, None).unwrap();
 /// ```
 pub struct LedMatrix {
-    handle: *mut c::LedMatrix,
+    handle: *mut ffi::CLedMatrix,
     _options: LedMatrixOptions,
 }
 
@@ -31,9 +31,9 @@ impl LedMatrix {
         let mut rt_options = rt_options.unwrap_or_default();
 
         let handle = unsafe {
-            c::led_matrix_create_from_options_and_rt_options(
-                &mut options as *mut LedMatrixOptions,
-                &mut rt_options as *mut LedRuntimeOptions,
+            ffi::led_matrix_create_from_options_and_rt_options(
+                &mut options.0 as *mut ffi::CLedMatrixOptions,
+                &mut rt_options.0 as *mut ffi::CLedRuntimeOptions,
             )
         };
 
@@ -49,14 +49,14 @@ impl LedMatrix {
 
     /// Retrieves the on screen canvas.
     pub fn canvas(&self) -> LedCanvas {
-        let handle = unsafe { c::led_matrix_get_canvas(self.handle) };
+        let handle = unsafe { ffi::led_matrix_get_canvas(self.handle) };
 
         LedCanvas { handle }
     }
 
     /// Retrieves the offscreen canvas. Used in conjunction with [swap](LedMatrix.swap).
     pub fn offscreen_canvas(&self) -> LedCanvas {
-        let handle = unsafe { c::led_matrix_create_offscreen_canvas(self.handle) };
+        let handle = unsafe { ffi::led_matrix_create_offscreen_canvas(self.handle) };
 
         LedCanvas { handle }
     }
@@ -75,7 +75,7 @@ impl LedMatrix {
     /// }
     /// ```
     pub fn swap(&self, canvas: LedCanvas) -> LedCanvas {
-        let handle = unsafe { c::led_matrix_swap_on_vsync(self.handle, canvas.handle) };
+        let handle = unsafe { ffi::led_matrix_swap_on_vsync(self.handle, canvas.handle) };
 
         LedCanvas { handle }
     }
@@ -84,7 +84,7 @@ impl LedMatrix {
 impl Drop for LedMatrix {
     fn drop(&mut self) {
         unsafe {
-            c::led_matrix_delete(self.handle);
+            ffi::led_matrix_delete(self.handle);
         }
     }
 }

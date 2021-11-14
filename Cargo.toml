@@ -1,0 +1,6 @@
+[workspace]
+
+members = [
+    "rust-rpi-rgb-led-matrix",
+    "rpi-rgb-led-matrix-sys",
+]

@@ -1,7 +1,7 @@
 use libc::c_int;
 use std::ffi::CString;
 
-use crate::c;
+use crate::ffi;
 use crate::{LedColor, LedFont};
 
 /// The Rust handle for the matrix canvas to draw on.
@@ -13,7 +13,7 @@ use crate::{LedColor, LedFont};
 /// canvas.fill(&LedColor { red: 128, green: 128, blue: 128 });
 /// ```
 pub struct LedCanvas {
-    pub(crate) handle: *mut c::LedCanvas,
+    pub(crate) handle: *mut ffi::CLedCanvas,
 }
 
 impl LedCanvas {
@@ -21,7 +21,7 @@ impl LedCanvas {
     pub fn canvas_size(&self) -> (i32, i32) {
         let (mut width, mut height): (c_int, c_int) = (0, 0);
         unsafe {
-            c::led_canvas_get_size(
+            ffi::led_canvas_get_size(
                 self.handle,
                 &mut width as *mut c_int,
                 &mut height as *mut c_int,
@@ -33,7 +33,7 @@ impl LedCanvas {
     /// Sets the pixel at the given coordinate to the given color.
     pub fn set(&mut self, x: i32, y: i32, color: &LedColor) {
         unsafe {
-            c::led_canvas_set_pixel(
+            ffi::led_canvas_set_pixel(
                 self.handle,
                 x as c_int,
                 y as c_int,
@@ -47,14 +47,14 @@ impl LedCanvas {
     /// Clears the canvas.
     pub fn clear(&mut self) {
         unsafe {
-            c::led_canvas_clear(self.handle);
+            ffi::led_canvas_clear(self.handle);
         }
     }
 
     /// Fills the canvas with the given color.
     pub fn fill(&mut self, color: &LedColor) {
         unsafe {
-            c::led_canvas_fill(self.handle, color.red, color.green, color.blue);
+            ffi::led_canvas_fill(self.handle, color.red, color.green, color.blue);
         }
     }
 
@@ -63,7 +63,7 @@ impl LedCanvas {
     /// Consider using embedded-graphics for more drawing features.
     pub fn draw_line(&mut self, x0: i32, y0: i32, x1: i32, y1: i32, color: &LedColor) {
         unsafe {
-            c::draw_line(
+            ffi::draw_line(
                 self.handle,
                 x0,
                 y0,
@@ -81,7 +81,7 @@ impl LedCanvas {
     /// Consider using embedded-graphics for more drawing features.
     pub fn draw_circle(&mut self, x: i32, y: i32, radius: u32, color: &LedColor) {
         unsafe {
-            c::draw_circle(
+            ffi::draw_circle(
                 self.handle,
                 x as c_int,
                 y as c_int,
@@ -108,7 +108,7 @@ impl LedCanvas {
         let ctext = CString::new(text).unwrap();
         unsafe {
             if vertical {
-                c::vertical_draw_text(
+                ffi::vertical_draw_text(
                     self.handle,
                     font.handle,
                     x as c_int,
@@ -120,7 +120,7 @@ impl LedCanvas {
                     kerning_offset as c_int,
                 ) as i32
             } else {
-                c::draw_text(
+                ffi::draw_text(
                     self.handle,
                     font.handle,
                     x as c_int,

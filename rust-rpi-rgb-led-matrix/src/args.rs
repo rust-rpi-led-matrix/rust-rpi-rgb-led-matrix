@@ -1,6 +1,6 @@
 //! Provides functions to add arguments to control various parameters of your
 //! RGB LED matrix.
-use crate::c::{LedMatrixOptions, LedRuntimeOptions};
+use crate::options::{LedMatrixOptions, LedRuntimeOptions};
 use clap::{value_t, App, Arg};
 
 /// Given a clap App, adds arguments specific to the matrix initialization.
