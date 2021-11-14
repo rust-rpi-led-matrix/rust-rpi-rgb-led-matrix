@@ -1,3 +1,5 @@
+use libc::{c_char, c_int};
+
 pub enum LedMatrix {}
 pub enum LedCanvas {}
 pub enum LedFont {}
