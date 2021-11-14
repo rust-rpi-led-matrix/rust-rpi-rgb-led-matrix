@@ -2,6 +2,8 @@ use crate::led_color::LedColor;
 use libc::{c_char, c_int};
 use std::ffi::CString;
 
+pub use rpi_rgb_led_matrix_sys::*;
+
 #[allow(dead_code)]
 impl LedCanvas {
     pub fn canvas_size(&self) -> (i32, i32) {
