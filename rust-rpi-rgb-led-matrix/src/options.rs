@@ -1,42 +1,9 @@
 use libc::{c_char, c_int};
 use std::ffi::CString;
 
+use crate::c::{LedMatrixOptions, LedRuntimeOptions};
+
 type LedMatrixOptionsResult = Result<(), &'static str>;
-
-/// The Rust representation of LedMatrixOptions, which contains parameters to specify your hardware setup.
-#[derive(Debug)]
-#[repr(C)]
-pub struct LedMatrixOptions {
-    pub(crate) hardware_mapping: *mut c_char,
-    pub(crate) rows: c_int,
-    pub(crate) cols: c_int,
-    pub(crate) chain_length: c_int,
-    pub(crate) parallel: c_int,
-    pub(crate) pwm_bits: c_int,
-    pub(crate) pwm_lsb_nanoseconds: c_int,
-    pub(crate) pwm_dither_bits: c_int,
-    pub(crate) brightness: c_int,
-    pub(crate) scan_mode: c_int,
-    pub(crate) row_address_type: c_int,
-    pub(crate) multiplexing: c_int,
-    pub(crate) led_rgb_sequence: *mut c_char,
-    pub(crate) pixel_mapper_config: *mut c_char,
-    pub(crate) panel_type: *mut c_char,
-    pub(crate) disable_hardware_pulsing: c_char,
-    pub(crate) show_refresh_rate: c_char,
-    pub(crate) inverse_colors: c_char,
-    pub(crate) limit_refresh_rate_hz: c_int,
-}
-
-/// The Rust representation of LedRuntimeOptions, which contains parameters to specify how the library behaves at runtime.
-#[derive(Debug)]
-#[repr(C)]
-pub struct LedRuntimeOptions {
-    pub(crate) gpio_slowdown: c_int,
-    pub(crate) daemon: c_int,
-    pub(crate) drop_privileges: c_int,
-    pub(crate) do_gpio_init: bool,
-}
 
 impl LedMatrixOptions {
     /// Creates a new `LedMatrixOptions` struct with the default parameters.
@@ -47,8 +14,8 @@ impl LedMatrixOptions {
     /// options.set_hardware_mapping("adafruit-hat-pwm");
     /// let matrix = LedMatrix::new(Some(options), None).unwrap();
     /// ```
-    pub fn new() -> LedMatrixOptions {
-        LedMatrixOptions {
+    pub fn new() -> Self {
+        Self(rpi_rgb_led_matrix_sys::LedMatrixOptions {
             hardware_mapping: CString::new("regular").unwrap().into_raw(),
             rows: 32,
             cols: 32,
@@ -68,7 +35,7 @@ impl LedMatrixOptions {
             show_refresh_rate: 1,
             inverse_colors: 0,
             limit_refresh_rate_hz: 0,
-        }
+        })
     }
 
     /// Sets the type of GPIO mapping used (e.g., "adafruit-hat-pwm").
@@ -260,12 +227,12 @@ impl LedRuntimeOptions {
     /// let matrix = LedMatrix::new(None, Some(rt_options)).unwrap();
     /// ```
     pub fn new() -> Self {
-        Self {
+        Self(rpi_rgb_led_matrix_sys::LedRuntimeOptions {
             gpio_slowdown: 1,
             daemon: 0,
             drop_privileges: 1,
             do_gpio_init: true,
-        }
+        })
     }
 
     /// Sets the GPIO slowdown, in . Needed for faster Pis/slower panels

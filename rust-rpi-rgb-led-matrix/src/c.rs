@@ -1,8 +1,23 @@
 use crate::led_color::LedColor;
-use libc::{c_char, c_int};
+use libc::c_int;
 use std::ffi::CString;
 
-pub use rpi_rgb_led_matrix_sys::*;
+// make newtypes here so we can expand on them
+
+#[repr(transparent)]
+pub struct LedCanvas(pub(crate) rpi_rgb_led_matrix_sys::LedCanvas);
+
+#[repr(transparent)]
+pub struct LedFont(pub(crate) rpi_rgb_led_matrix_sys::LedFont);
+
+#[repr(transparent)]
+pub struct LedMatrix(pub(crate) rpi_rgb_led_matrix_sys::LedMatrix);
+
+#[repr(transparent)]
+pub struct LedMatrixOptions(pub(crate) rpi_rgb_led_matrix_sys::LedMatrixOptions);
+
+#[repr(transparent)]
+pub struct LedRuntimeOptions(pub(crate) rpi_rgb_led_matrix_sys::LedRuntimeOptions);
 
 #[allow(dead_code)]
 impl LedCanvas {
