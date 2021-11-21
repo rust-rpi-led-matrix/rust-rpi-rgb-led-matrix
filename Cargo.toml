@@ -4,3 +4,9 @@ members = [
     "rust-rpi-rgb-led-matrix",
     "rpi-rgb-led-matrix-sys",
 ]
+
+[profile.release]
+codegen-units = 1
+debug = true
+lto = "fat"
+opt-level = 2
