@@ -27,12 +27,14 @@ fn main() {
     let cpp_lib_dir: std::path::PathBuf = [&repo_dir, "cpp-library"].iter().collect();
     let cpp_lib_out_dir: std::path::PathBuf = [&target_dir, "cpp-library"].iter().collect();
     println!("building from {}", cpp_lib_out_dir.display());
+    // delete our output git directory, if it exists, then copy the git repo over
+    std::fs::remove_dir_all(&cpp_lib_out_dir).ok();
     copy_dir::copy_dir(&cpp_lib_dir, &cpp_lib_out_dir).unwrap();
     println!("cargo:rerun-if-changed={}", cpp_lib_dir.display());
 
     // 2. build the library
     let cpp_lib_lib_out_dir: std::path::PathBuf =
-        [&cpp_lib_out_dir.to_str().unwrap(), "lib"].iter().collect();
+        [cpp_lib_out_dir.to_str().unwrap(), "lib"].iter().collect();
     std::env::set_current_dir(&cpp_lib_lib_out_dir).unwrap();
     let status = std::process::Command::new("make")
         .status()
