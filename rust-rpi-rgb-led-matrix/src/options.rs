@@ -91,7 +91,7 @@ impl LedMatrixOptions {
 
     /// Sets the pannel brightness in percent.
     pub fn set_brightness(&mut self, brightness: u8) -> LedMatrixOptionsResult {
-        if brightness > 100 || brightness < 1 {
+        if !(1..=100).contains(&brightness) {
             Err("Brightness can only have value between 1 and 100 inclusive")
         } else {
             self.0.brightness = brightness as c_int;

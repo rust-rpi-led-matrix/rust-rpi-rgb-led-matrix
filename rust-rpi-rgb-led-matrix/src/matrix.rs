@@ -1,5 +1,5 @@
 use crate::ffi;
-use crate::{LedCanvas, LedColor, LedMatrixOptions, LedRuntimeOptions};
+use crate::{LedCanvas, LedMatrixOptions, LedRuntimeOptions};
 #[cfg(feature = "embeddedgraphics")]
 use embedded_graphics::{drawable::Pixel, geometry::Size, pixelcolor::PixelColor, DrawTarget};
 
@@ -92,7 +92,7 @@ impl Drop for LedMatrix {
 #[cfg(feature = "embeddedgraphics")]
 impl<C> DrawTarget<C> for LedCanvas
 where
-    C: Into<LedColor> + PixelColor,
+    C: Into<crate::LedColor> + PixelColor,
 {
     type Error = core::convert::Infallible;
 

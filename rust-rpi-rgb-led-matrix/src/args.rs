@@ -94,8 +94,8 @@ pub fn add_matrix_args(app: App<'static, 'static>) -> App<'static, 'static> {
 }
 
 /// Given the parsed matches, returns LedMatrixOptions, LedRuntimeOptions`
-pub fn matrix_options_from_args<'a>(
-    parsed_args: &clap::ArgMatches<'a>,
+pub fn matrix_options_from_args(
+    parsed_args: &clap::ArgMatches,
 ) -> (LedMatrixOptions, LedRuntimeOptions) {
     let mut options = LedMatrixOptions::new();
     let mut rt_options = LedRuntimeOptions::new();

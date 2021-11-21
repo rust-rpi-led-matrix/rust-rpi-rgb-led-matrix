@@ -8,7 +8,7 @@
 
 fn main() {
     // Early out if we're stubbing the C api ourselves
-    if let Ok(_) = std::env::var("CARGO_FEATURE_C_STUBS") {
+    if std::env::var("CARGO_FEATURE_C_STUBS").is_ok() {
         std::process::exit(0);
     }
 
