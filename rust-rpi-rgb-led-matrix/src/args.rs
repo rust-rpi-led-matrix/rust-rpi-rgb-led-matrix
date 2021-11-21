@@ -179,7 +179,7 @@ mod tests {
         let app = add_matrix_args(App::new("test"));
         let matches = app.get_matches_from(vec!["app", "--pwm-dither-bits", "42"]);
         let (options, _rt_options) = matrix_options_from_args(&matches);
-        assert_eq!(options.pwm_dither_bits, 42);
+        assert_eq!(options.0.pwm_dither_bits, 42);
     }
 
     #[test]
@@ -187,7 +187,7 @@ mod tests {
         let app = add_matrix_args(App::new("test"));
         let matches = app.get_matches_from(vec!["app", "--slowdown-gpio", "4"]);
         let (_options, rt_options) = matrix_options_from_args(&matches);
-        assert_eq!(rt_options.gpio_slowdown, 4);
+        assert_eq!(rt_options.0.gpio_slowdown, 4);
     }
 
     #[test]
@@ -195,6 +195,6 @@ mod tests {
         let app = add_matrix_args(App::new("test"));
         let matches = app.get_matches_from(vec!["app", "--daemon"]);
         let (_options, rt_options) = matrix_options_from_args(&matches);
-        assert_eq!(rt_options.daemon, 1);
+        assert_eq!(rt_options.0.daemon, 1);
     }
 }
