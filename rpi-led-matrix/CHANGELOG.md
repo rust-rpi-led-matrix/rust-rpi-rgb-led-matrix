@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- Encapsulated the C++ library in a `-sys` crate
+
 ## [0.2.2] - 2020-09-25
 
 - Version bump to (hopefully) actually fix [docs.rs][docs-rs-link] not rendering optional clap feature
