@@ -11,7 +11,7 @@ fn main() {
     // Note I'm checking HOST instead of TARGET since the C++ library depends on natively linking to some libraries
     //   that are only on rpis
     let host = std::env::var("HOST").unwrap();
-    if !host.contains("arm") || !host.contains("linux") {
+    if !(host.contains("arm") || host.contains("aarch")) || !host.contains("linux") {
         eprintln!("rpi-rgb-led-matrix-sys detected you're likely not compiling on a raspberry pi");
         std::process::exit(-1);
     }
