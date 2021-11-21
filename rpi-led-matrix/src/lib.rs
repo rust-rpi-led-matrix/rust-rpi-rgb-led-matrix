@@ -32,7 +32,7 @@ mod matrix;
 mod options;
 
 // import all of the C FFI functions
-pub(crate) use rpi_rgb_led_matrix_sys as ffi;
+pub(crate) use rpi_led_matrix_sys as ffi;
 
 // re-export objects to the root
 #[doc(inline)]

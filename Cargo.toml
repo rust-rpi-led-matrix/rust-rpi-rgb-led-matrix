@@ -1,8 +1,8 @@
 [workspace]
 
 members = [
-    "rust-rpi-rgb-led-matrix",
-    "rpi-rgb-led-matrix-sys",
+    "rpi-led-matrix",
+    "rpi-led-matrix-sys",
 ]
 
 [profile.release]

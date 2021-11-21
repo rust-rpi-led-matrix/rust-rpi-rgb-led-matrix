@@ -1,3 +1,6 @@
 [submodule "rpi-rgb-led-matrix-sys/cpp-library"]
 	path = rpi-rgb-led-matrix-sys/cpp-library
 	url = git@github.com:hzeller/rpi-rgb-led-matrix.git
+[submodule "rpi-led-matrix-sys/cpp-library"]
+	path = rpi-led-matrix-sys/cpp-library
+	url = git@github.com:hzeller/rpi-rgb-led-matrix.git

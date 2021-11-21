@@ -1,4 +1,4 @@
-//! Build script for `rpi-rgb-led-matrix-sys`
+//! Build script for `rpi-led-matrix-sys`
 //!
 //! This build script:
 //! 0. checks if we're on a raspberry pi to make sure compilation has a chance of success
@@ -17,7 +17,7 @@ fn main() {
     //   that are only on rpis
     let host = std::env::var("HOST").unwrap();
     if !(host.contains("arm") || host.contains("aarch")) || !host.contains("linux") {
-        eprintln!("rpi-rgb-led-matrix-sys detected you're likely not compiling on a raspberry pi");
+        eprintln!("rpi-led-matrix-sys detected you're likely not compiling on a raspberry pi");
         std::process::exit(-1);
     }
 
@@ -32,7 +32,8 @@ fn main() {
     copy_dir::copy_dir(&cpp_lib_dir, &cpp_lib_out_dir).unwrap();
     println!("cargo:rerun-if-changed={}", cpp_lib_dir.display());
 
-    // 2. build the library
+    // 2. build the library. We assume you have the tools necessary to build the library,
+    //    which I think are available by default on all pis
     let cpp_lib_lib_out_dir: std::path::PathBuf =
         [cpp_lib_out_dir.to_str().unwrap(), "lib"].iter().collect();
     std::env::set_current_dir(&cpp_lib_lib_out_dir).unwrap();
