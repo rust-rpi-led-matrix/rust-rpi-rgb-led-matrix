@@ -16,6 +16,7 @@ copy_dir = "0.1"
 
 [features]
 default = []
+c-stubs = []
 
 [package.metadata.docs.rs]
 all-features = true

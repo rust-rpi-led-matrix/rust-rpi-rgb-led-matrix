@@ -1,6 +1,9 @@
 //! Rust bindings into the C++ library rpi-rgb-led-matrix.
 use libc::{c_char, c_int};
 
+#[cfg(feature = "c-stubs")]
+pub mod c_stubs;
+
 /// The C handle for an LedMatrix
 pub enum CLedMatrix {}
 

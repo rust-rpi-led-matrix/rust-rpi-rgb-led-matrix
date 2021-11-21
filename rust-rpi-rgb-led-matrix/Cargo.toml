@@ -9,25 +9,24 @@ authors = [
 ]
 repository = "https://github.com/rust-rpi-led-matrix/rust-rpi-rgb-led-matrix"
 homepage = "https://docs.rs/rpi-led-matrix/"
-build = "build.rs"
 license = "GPL-3.0"
 readme = "README.md"
 edition = "2018"
-
-[features]
-default = ["embeddedgraphics"]
-
-embeddedgraphics = ["embedded-graphics"]
-args = ["clap"]
-
-[build-dependencies]
-gcc = "0.3"
 
 [dependencies]
 libc = "0.2"
 rpi-rgb-led-matrix-sys = { version = "0.1", path = "../rpi-rgb-led-matrix-sys" }
 embedded-graphics = { version = "0.6.2", optional = true }
 clap = { version = "2.33", optional = true }
+
+[build-dependencies]
+gcc = "0.3"
+
+[features]
+default = ["embeddedgraphics"]
+embeddedgraphics = ["embedded-graphics"]
+args = ["clap"]
+c-stubs = ["rpi-rgb-led-matrix-sys/c-stubs"]
 
 [[example]]
 name = "arguments"

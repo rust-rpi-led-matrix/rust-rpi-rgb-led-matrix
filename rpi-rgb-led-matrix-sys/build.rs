@@ -7,6 +7,11 @@
 //! 3. statically links against it
 
 fn main() {
+    // Early out if we're stubbing the C api ourselves
+    if let Ok(_) = std::env::var("CARGO_FEATURE_C_STUBS") {
+        std::process::exit(0);
+    }
+
     // 0. To guess at if we're on the right platform, look for linux as the system & arm as the architecture
     // Note I'm checking HOST instead of TARGET since the C++ library depends on natively linking to some libraries
     //   that are only on rpis
