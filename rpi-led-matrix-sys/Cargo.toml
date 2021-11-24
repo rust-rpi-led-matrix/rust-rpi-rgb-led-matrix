@@ -3,7 +3,7 @@ name = "rpi-led-matrix-sys"
 version = "0.1.0"
 edition = "2018"
 description = "system library for the rpi-rgb-led-matrix C++ library"
-links = "rgbmatrix"
+links = "rgbmatrixsys"
 build = "build.rs"
 license = "GPL-3.0"
 

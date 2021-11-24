@@ -61,10 +61,28 @@ fn main() {
         panic!("failed to compile the C++ library");
     }
 
+    // 2.1 rename the library produced to avoid ambiguity with global variants.
+    let cpp_lib_lib_out_file: std::path::PathBuf =
+        [cpp_lib_out_dir.to_str().unwrap(), "lib", "librgbmatrix.a"]
+            .iter()
+            .collect();
+    let cpp_lib_lib_out_file_rename: std::path::PathBuf = [
+        cpp_lib_out_dir.to_str().unwrap(),
+        "lib",
+        "librgbmatrixsys.a",
+    ]
+    .iter()
+    .collect();
+    println!(
+        "renaming library from {:?} to {:?}",
+        &cpp_lib_lib_out_file, &cpp_lib_lib_out_file_rename
+    );
+    std::fs::rename(&cpp_lib_lib_out_file, &cpp_lib_lib_out_file_rename).unwrap();
+
     // 3. link!
     println!(
         "cargo:rustc-link-search=native={}",
         cpp_lib_lib_out_dir.display()
     );
-    println!("cargo:rustc-link-lib=static=rgbmatrix");
+    println!("cargo:rustc-link-lib=static=rgbmatrixsys");
 }

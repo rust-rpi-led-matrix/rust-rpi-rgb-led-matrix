@@ -48,7 +48,7 @@ pub struct CLedRuntimeOptions {
     pub do_gpio_init: bool,
 }
 
-#[link(name = "rgbmatrix")]
+#[link(name = "rgbmatrixsys")]
 extern "C" {
     // unused C functions omitted
     pub fn led_matrix_create_from_options_and_rt_options(
