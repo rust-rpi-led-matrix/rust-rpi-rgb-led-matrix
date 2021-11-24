@@ -26,7 +26,23 @@ fn main() {
     let repo_dir = std::env::var("CARGO_MANIFEST_DIR").unwrap();
     let cpp_lib_dir: std::path::PathBuf = [&repo_dir, "cpp-library"].iter().collect();
     let cpp_lib_out_dir: std::path::PathBuf = [&target_dir, "cpp-library"].iter().collect();
-    println!("building from {}", cpp_lib_out_dir.display());
+    // Make sure our git submodule is checked out and up to date
+    let status = std::process::Command::new("git")
+        .arg("submodule")
+        .arg("init")
+        .status()
+        .expect("process failed to execute");
+    if !status.success() {
+        panic!("failed to checkout the C++ library git submodule");
+    }
+    let status = std::process::Command::new("git")
+        .arg("submodule")
+        .arg("update")
+        .status()
+        .expect("process failed to execute");
+    if !status.success() {
+        panic!("failed to checkout the C++ library git submodule");
+    }
     // delete our output git directory, if it exists, then copy the git repo over
     std::fs::remove_dir_all(&cpp_lib_out_dir).ok();
     copy_dir::copy_dir(&cpp_lib_dir, &cpp_lib_out_dir).unwrap();
@@ -37,6 +53,7 @@ fn main() {
     let cpp_lib_lib_out_dir: std::path::PathBuf =
         [cpp_lib_out_dir.to_str().unwrap(), "lib"].iter().collect();
     std::env::set_current_dir(&cpp_lib_lib_out_dir).unwrap();
+    println!("building from {}", cpp_lib_out_dir.display());
     let status = std::process::Command::new("make")
         .status()
         .expect("process failed to execute");
