@@ -23,7 +23,7 @@ impl PixelColor for LedColor {
 #[cfg(feature = "embeddedgraphics")]
 impl From<Bgr555> for LedColor {
     fn from(p: Bgr555) -> Self {
-        LedColor {
+        Self {
             red: p.r() << 3,
             green: p.g() << 3,
             blue: p.b() << 3,
@@ -34,7 +34,7 @@ impl From<Bgr555> for LedColor {
 #[cfg(feature = "embeddedgraphics")]
 impl From<Bgr565> for LedColor {
     fn from(p: Bgr565) -> Self {
-        LedColor {
+        Self {
             red: p.r() << 3,
             green: p.g() << 2,
             blue: p.b() << 3,
@@ -45,7 +45,7 @@ impl From<Bgr565> for LedColor {
 #[cfg(feature = "embeddedgraphics")]
 impl From<Bgr888> for LedColor {
     fn from(p: Bgr888) -> Self {
-        LedColor {
+        Self {
             red: p.r(),
             green: p.g(),
             blue: p.b(),
@@ -56,7 +56,7 @@ impl From<Bgr888> for LedColor {
 #[cfg(feature = "embeddedgraphics")]
 impl From<Gray2> for LedColor {
     fn from(p: Gray2) -> Self {
-        LedColor {
+        Self {
             red: p.luma() << 6,
             green: p.luma() << 6,
             blue: p.luma() << 6,
@@ -67,7 +67,7 @@ impl From<Gray2> for LedColor {
 #[cfg(feature = "embeddedgraphics")]
 impl From<Gray4> for LedColor {
     fn from(p: Gray4) -> Self {
-        LedColor {
+        Self {
             red: p.luma() << 4,
             green: p.luma() << 4,
             blue: p.luma() << 4,
@@ -78,7 +78,7 @@ impl From<Gray4> for LedColor {
 #[cfg(feature = "embeddedgraphics")]
 impl From<Gray8> for LedColor {
     fn from(p: Gray8) -> Self {
-        LedColor {
+        Self {
             red: p.luma(),
             green: p.luma(),
             blue: p.luma(),
@@ -89,7 +89,7 @@ impl From<Gray8> for LedColor {
 #[cfg(feature = "embeddedgraphics")]
 impl From<Rgb555> for LedColor {
     fn from(p: Rgb555) -> Self {
-        LedColor {
+        Self {
             red: p.r() << 3,
             green: p.g() << 3,
             blue: p.b() << 3,
@@ -100,7 +100,7 @@ impl From<Rgb555> for LedColor {
 #[cfg(feature = "embeddedgraphics")]
 impl From<Rgb565> for LedColor {
     fn from(p: Rgb565) -> Self {
-        LedColor {
+        Self {
             red: p.r() << 3,
             green: p.g() << 2,
             blue: p.b() << 3,
@@ -111,7 +111,7 @@ impl From<Rgb565> for LedColor {
 #[cfg(feature = "embeddedgraphics")]
 impl From<Rgb888> for LedColor {
     fn from(p: Rgb888) -> Self {
-        LedColor {
+        Self {
             red: p.r(),
             green: p.g(),
             blue: p.b(),

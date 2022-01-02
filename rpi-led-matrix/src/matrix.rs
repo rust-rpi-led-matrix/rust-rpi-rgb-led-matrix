@@ -23,10 +23,14 @@ impl LedMatrix {
     /// options.set_hardware_mapping("adafruit-hat-pwm");
     /// let matrix = LedMatrix::new(Some(options), None).unwrap();
     /// ```
+    ///
+    /// # Errors
+    /// If the underlying C++ library returns a null pointer when trying to create
+    /// the [`CLedMatrix`](ffi::CLedMatrix).
     pub fn new(
         options: Option<LedMatrixOptions>,
         rt_options: Option<LedRuntimeOptions>,
-    ) -> Result<LedMatrix, &'static str> {
+    ) -> Result<Self, &'static str> {
         let mut options = options.unwrap_or_default();
         let mut rt_options = rt_options.unwrap_or_default();
 
@@ -40,7 +44,7 @@ impl LedMatrix {
         if handle.is_null() {
             Err("Couldn't create LedMatrix")
         } else {
-            Ok(LedMatrix {
+            Ok(Self {
                 handle,
                 _options: options,
             })
@@ -48,6 +52,7 @@ impl LedMatrix {
     }
 
     /// Retrieves the on screen canvas.
+    #[must_use]
     pub fn canvas(&self) -> LedCanvas {
         let handle = unsafe { ffi::led_matrix_get_canvas(self.handle) };
 
@@ -55,6 +60,7 @@ impl LedMatrix {
     }
 
     /// Retrieves the offscreen canvas. Used in conjunction with [swap](LedMatrix.swap).
+    #[must_use]
     pub fn offscreen_canvas(&self) -> LedCanvas {
         let handle = unsafe { ffi::led_matrix_create_offscreen_canvas(self.handle) };
 
@@ -74,6 +80,7 @@ impl LedMatrix {
     ///     color.red += 1;
     /// }
     /// ```
+    #[must_use]
     pub fn swap(&self, canvas: LedCanvas) -> LedCanvas {
         let handle = unsafe { ffi::led_matrix_swap_on_vsync(self.handle, canvas.handle) };
 

@@ -3,26 +3,35 @@ use std::path::Path;
 
 use crate::ffi;
 
-/// The Rust handle for LedFont.
+/// The Rust handle for [`LedFont`].
 pub struct LedFont {
     pub(crate) handle: *mut ffi::CLedFont,
 }
 
 impl LedFont {
-    /// Creates a new `LedFont` instance with the given bdf filepath, if it exists.
-    pub fn new(bdf_file: &Path) -> Result<LedFont, &'static str> {
+    /// Creates a new [`LedFont`] instance with the given bdf filepath, if it exists.
+    ///
+    /// # Errors
+    /// - If the given `bdf_file` path fails to convert to a string. This can
+    ///   occur when there is a null character mid way in the string.
+    /// - If the C++ library returns us a null pointer when loading the font.
+    pub fn new(bdf_file: &Path) -> Result<Self, &'static str> {
         let string = match bdf_file.to_str() {
             Some(s) => s,
             None => return Err("Couldn't convert path to str"),
         };
-        let cstring = CString::new(string).unwrap();
+        let cstring = if let Ok(cstring) = CString::new(string) {
+            cstring
+        } else {
+            return Err("Failed to convert path to CString");
+        };
 
         let handle = unsafe { ffi::load_font(cstring.as_ptr()) };
 
         if handle.is_null() {
             Err("Couldn't load font")
         } else {
-            Ok(LedFont { handle })
+            Ok(Self { handle })
         }
     }
 }

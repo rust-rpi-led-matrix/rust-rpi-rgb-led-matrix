@@ -22,6 +22,7 @@ impl LedMatrixOptions {
     /// options.set_hardware_mapping("adafruit-hat-pwm");
     /// let matrix = LedMatrix::new(Some(options), None).unwrap();
     /// ```
+    #[must_use]
     pub fn new() -> Self {
         Self(ffi::CLedMatrixOptions {
             hardware_mapping: CString::new("regular").unwrap().into_raw(),
@@ -47,10 +48,16 @@ impl LedMatrixOptions {
     }
 
     /// Sets the type of GPIO mapping used (e.g., "adafruit-hat-pwm").
+    ///
+    /// # Panics
+    /// If the given `mapping` string fails to convert to a `CString`. This can
+    /// occur when there is a null character mid way in the string.
     pub fn set_hardware_mapping(&mut self, mapping: &str) {
         unsafe {
             let _ = CString::from_raw(self.0.hardware_mapping);
-            self.0.hardware_mapping = CString::new(mapping).unwrap().into_raw();
+            self.0.hardware_mapping = CString::new(mapping)
+                .expect("given string failed to convert into a CString")
+                .into_raw();
         }
     }
 
@@ -74,7 +81,10 @@ impl LedMatrixOptions {
         self.0.parallel = parallel as c_int;
     }
 
-    /// Sets the number of PWM bits to use. Valid range: [1,11].
+    /// Sets the number of PWM bits to use. Valid range: [0,11].
+    ///
+    /// # Errors
+    /// If the given `pwm_bits` is outside the valid range
     pub fn set_pwm_bits(&mut self, pwm_bits: u8) -> LedMatrixOptionsResult {
         if pwm_bits > 11 {
             Err("Pwm bits can only have value between 0 and 11 inclusive")
@@ -89,7 +99,10 @@ impl LedMatrixOptions {
         self.0.pwm_lsb_nanoseconds = pwm_lsb_nanoseconds as c_int;
     }
 
-    /// Sets the pannel brightness in percent.
+    /// Sets the panel brightness in percent.
+    ///
+    /// # Errors
+    /// If the given `brightness` is not in the range [1,100].
     pub fn set_brightness(&mut self, brightness: u8) -> LedMatrixOptionsResult {
         if !(1..=100).contains(&brightness) {
             Err("Brightness can only have value between 1 and 100 inclusive")
@@ -105,10 +118,16 @@ impl LedMatrixOptions {
     }
 
     /// Sets the ordering of the LEDs on your panel.
+    ///
+    /// # Panics
+    /// If the given `sequence` string fails to convert to a `CString`. This can
+    /// occur when there is a null character mid way in the string.
     pub fn set_led_rgb_sequence(&mut self, sequence: &str) {
         unsafe {
             let _ = CString::from_raw(self.0.led_rgb_sequence);
-            self.0.led_rgb_sequence = CString::new(sequence).unwrap().into_raw();
+            self.0.led_rgb_sequence = CString::new(sequence)
+                .expect("given string failed to convert into a CString")
+                .into_raw();
         }
     }
 
@@ -116,14 +135,20 @@ impl LedMatrixOptions {
     ///
     /// Valid mapping options
     ///
-    /// * Mirror
-    /// * Rotate:<Angle>
-    /// * U-mapper
-    /// * V-mapper
+    /// * `Mirror`
+    /// * `Rotate:<Angle>`
+    /// * `U-mapper`
+    /// * `V-mapper`
+    ///
+    /// # Panics
+    /// If the given `mapper` string fails to convert to a `CString`. This can
+    /// occur when there is a null character mid way in the string.
     pub fn set_pixel_mapper_config(&mut self, mapper: &str) {
         unsafe {
             let _ = CString::from_raw(self.0.pixel_mapper_config);
-            self.0.pixel_mapper_config = CString::new(mapper).unwrap().into_raw();
+            self.0.pixel_mapper_config = CString::new(mapper)
+                .expect("given string failed to convert into a CString")
+                .into_raw();
         }
     }
 
@@ -156,23 +181,23 @@ impl LedMatrixOptions {
 
     /// Sets the type of multiplexing used.
     ///
-    /// 0.  direct
-    /// 1.  Stripe
-    /// 2.  Checkered
-    /// 3.  Spiral
-    /// 4.  ZStripe
-    /// 5.  ZnMirrorZStripe
-    /// 6.  coreman
-    /// 7.  Kaler2Scan
-    /// 8.  ZStripeUneven
-    /// 9.  P10-128x4-Z
-    /// 10. QiangLiQ8
-    /// 11. InversedZStripe
-    /// 12. P10Outdoor1R1G1-1
-    /// 13. P10Outdoor1R1G1-2
-    /// 14. P10Outdoor1R1G1-3
-    /// 15. P10CoremanMapper
-    /// 16. P8Outdoor1R1G1
+    /// 0.  `direct`
+    /// 1.  `Stripe`
+    /// 2.  `Checkered`
+    /// 3.  `Spiral`
+    /// 4.  `ZStripe`
+    /// 5.  `ZnMirrorZStripe`
+    /// 6.  `coreman`
+    /// 7.  `Kaler2Scan`
+    /// 8.  `ZStripeUneven`
+    /// 9.  `P10-128x4-Z`
+    /// 10. `QiangLiQ8`
+    /// 11. `InversedZStripe`
+    /// 12. `P10Outdoor1R1G1-1`
+    /// 13. `P10Outdoor1R1G1-2`
+    /// 14. `P10Outdoor1R1G1-3`
+    /// 15. `P10CoremanMapper`
+    /// 16. `P8Outdoor1R1G1`
     pub fn set_multiplexing(&mut self, multiplexing: u32) {
         self.0.multiplexing = multiplexing as c_int;
     }
@@ -201,10 +226,16 @@ impl LedMatrixOptions {
     }
 
     /// Needed to initialize special panels. Supported: 'FM6126A', 'FM6127'
+    ///
+    /// # Panics
+    /// If the given `panel_type` string fails to convert to a `CString`. This can
+    /// occur when there is a null character mid way in the string.
     pub fn set_panel_type(&mut self, panel_type: &str) {
         unsafe {
             let _ = CString::from_raw(self.0.panel_type);
-            self.0.panel_type = CString::new(panel_type).unwrap().into_raw();
+            self.0.panel_type = CString::new(panel_type)
+                .expect("given string failed to convert into a CString")
+                .into_raw();
         }
     }
 }
@@ -234,7 +265,8 @@ impl LedRuntimeOptions {
     /// rt_options.set_gpio_slowdown(3);
     /// let matrix = LedMatrix::new(None, Some(rt_options)).unwrap();
     /// ```
-    pub fn new() -> Self {
+    #[must_use]
+    pub const fn new() -> Self {
         Self(ffi::CLedRuntimeOptions {
             gpio_slowdown: 1,
             daemon: 0,

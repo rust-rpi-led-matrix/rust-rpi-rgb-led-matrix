@@ -18,6 +18,7 @@ pub struct LedCanvas {
 
 impl LedCanvas {
     /// Retrieves the width & height of the canvas
+    #[must_use]
     pub fn canvas_size(&self) -> (i32, i32) {
         let (mut width, mut height): (c_int, c_int) = (0, 0);
         unsafe {
@@ -40,7 +41,7 @@ impl LedCanvas {
                 color.red,
                 color.green,
                 color.blue,
-            )
+            );
         }
     }
 
@@ -95,6 +96,10 @@ impl LedCanvas {
 
     #[allow(clippy::too_many_arguments)]
     /// Renders text using the C++ library.
+    ///
+    /// # Panics
+    /// If the given `text` fails to convert to a `CString`. This can
+    /// occur when there is a null character mid way in the string.
     pub fn draw_text(
         &mut self,
         font: &LedFont,
@@ -105,7 +110,7 @@ impl LedCanvas {
         kerning_offset: i32,
         vertical: bool,
     ) -> i32 {
-        let ctext = CString::new(text).unwrap();
+        let ctext = CString::new(text).expect("given string failed to convert into a CString");
         unsafe {
             if vertical {
                 ffi::vertical_draw_text(

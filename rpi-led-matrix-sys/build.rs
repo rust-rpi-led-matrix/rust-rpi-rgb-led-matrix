@@ -37,17 +37,15 @@ fn main() {
         .status()
         .expect("git status failed")
         .success()
-    {
-        if !Command::new("git")
+        && !Command::new("git")
             .arg("submodule")
             .arg("update")
             .arg("--init")
             .status()
             .expect("process failed to execute")
             .success()
-        {
-            println!("cargo:warning=failed to checkout/update the C++ library git submodule");
-        }
+    {
+        println!("cargo:warning=failed to checkout/update the C++ library git submodule");
     }
 
     // delete our output git directory, if it exists, then copy the git repo over
@@ -64,9 +62,7 @@ fn main() {
     let status = Command::new("make")
         .status()
         .expect("process failed to execute");
-    if !status.success() {
-        panic!("failed to compile the C++ library");
-    }
+    assert!(status.success(), "failed to compile the C++ library");
 
     // 2.1 rename the library produced to avoid ambiguity with global variants.
     let cpp_lib_lib_out_file: std::path::PathBuf =

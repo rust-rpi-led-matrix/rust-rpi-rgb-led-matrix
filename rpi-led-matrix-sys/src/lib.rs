@@ -1,19 +1,19 @@
-//! Rust bindings into the C++ library rpi-rgb-led-matrix.
+//! Rust bindings into the C++ library `rpi-rgb-led-matrix`.
 use libc::{c_char, c_int};
 
 #[cfg(feature = "c-stubs")]
 pub mod c_stubs;
 
-/// The C handle for an LedMatrix
+/// The C handle for `LedMatrix`.
 pub enum CLedMatrix {}
 
-/// The C handle for an LedCanvas
+/// The C handle for `LedCanvas`.
 pub enum CLedCanvas {}
 
-/// The C handle for an LedFont
+/// The C handle for `LedFont`.
 pub enum CLedFont {}
 
-/// The Rust representation of CLedMatrixOptions, which contains parameters to specify your hardware setup.
+/// The Rust representation of [`CLedMatrixOptions`], which contains parameters to specify your hardware setup.
 #[derive(Debug)]
 #[repr(C)]
 pub struct CLedMatrixOptions {
@@ -38,7 +38,8 @@ pub struct CLedMatrixOptions {
     pub limit_refresh_rate_hz: c_int,
 }
 
-/// The Rust representation of CLedRuntimeOptions, which contains parameters to specify how the library behaves at runtime.
+/// The Rust representation of [`CLedRuntimeOptions`], which contains parameters to specify
+/// how the library behaves at runtime.
 #[derive(Debug)]
 #[repr(C)]
 pub struct CLedRuntimeOptions {
