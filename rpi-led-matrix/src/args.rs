@@ -8,89 +8,89 @@ pub fn add_matrix_args(app: App<'static>) -> App<'static> {
     app
     .arg(
         arg!(
-            --gpio-mapping <name> "'Name of GPIO mapping used'")
-            .default_value("Regular"))
+            --"gpio-mapping" <name> "'Name of GPIO mapping used'")
+            .default_value("Regular").required(false))
     .arg(
         arg!(
             --rows <rows> "Panel rows. Typically 8, 16, 32 or 64")
-            .default_value("32"))
+            .default_value("32").required(false))
     .arg(
         arg!(
             --cols <cols> "Panel columns. Typically 32 or 64")
-            .default_value("32"))
+            .default_value("32").required(false))
     .arg(
         arg!(
             --chain <chained> "Number of daisy-chained panels")
-            .default_value("1"))
+            .default_value("1").required(false))
     .arg(
         arg!(
             --parallel <parallel> "Parallel chains. range=1..3")
-            .default_value("1"))
+            .default_value("1").required(false))
     .arg(
         arg!(
             --multiplexing <VAL> "[0,16] Mux type: 0=direct, 1=Stripe, 2=Checkered, 3=Spiral, 4=ZStripe, 5=ZnMirrorZStripe, 6=coreman, 7=Kaler2Scan, 8=ZStripeUneven, 9=P10-128x4-Z, 10=QiangLiQ8, 11=InversedZStripe, 12=P10Outdoor1R1G1-1, 13=P10Outdoor1R1G1-2, 14=P10Outdoor1R1G1-3, 15=P10CoremanMapper, 16=P8Outdoor1R1G1")
-            .default_value("0"))
+            .default_value("0").required(false))
     .arg(
         arg!(
-            --pixel-mapper "Semicolon-separated list of pixel-mappers to arrange pixels. Optional params after a colon e.g. \"U-mapper;Rotate:90\"\"Available: \"Mirror\", \"Rotate\", \"U-mapper\", \"V-mapper\"")
-            .default_value(""))
+            --"pixel-mapper" <VAL> "Semicolon-separated list of pixel-mappers to arrange pixels. Optional params after a colon e.g. \"U-mapper;Rotate:90\"\"Available: \"Mirror\", \"Rotate\", \"U-mapper\", \"V-mapper\"")
+            .default_value("").required(false))
     .arg(
         arg!(
-            --pwm-bits <VAL> "[1,11] PWM bits")
-            .default_value("11"))
+            --"pwm-bits" <VAL> "[1,11] PWM bits")
+            .default_value("11").required(false))
     .arg(
         arg!(
             --brightness <percent> "Brightness in percent")
-            .default_value("100"))
+            .default_value("100").required(false))
     .arg(
         arg!(
-            --scan-mode <VAL> "0 = progressive; 1 = interlaced")
-            .default_value("0"))
+            --"scan-mode" <VAL> "0 = progressive; 1 = interlaced")
+            .default_value("0").required(false))
     .arg(
         arg!(
-            --row-addr-type <VAL> "0 = default; 1 = AB-addressed panels; 2 = direct row select; 3 = ABC-addressed panels; 4 = ABC Shift + DE direct")
-            .default_value("0"))
+            --"row-addr-type" <VAL> "0 = default; 1 = AB-addressed panels; 2 = direct row select; 3 = ABC-addressed panels; 4 = ABC Shift + DE direct")
+            .default_value("0").required(false))
     .arg(
         arg!(
-            --limit-refresh <Hz> "Limit refresh rate to this frequency in Hz. Useful to keep a constant refresh rate on loaded system. 0=no limit")
-            .default_value("0"))
+            --"limit-refresh" <Hz> "Limit refresh rate to this frequency in Hz. Useful to keep a constant refresh rate on loaded system. 0=no limit")
+            .default_value("0").required(false))
     .arg(
         arg!(
-            "--rgb-sequence 'Switch if your matrix has led colors swapped'")
-            .default_value("RGB"))
+            --"rgb-sequence" <SEQ> "Switch if your matrix has led colors swapped")
+            .default_value("RGB").required(false))
     .arg(
         arg!(
-            --pwm-lsb-nanoseconds <ns> "PWM Nanoseconds for LSB")
-            .default_value("130"))
+            --"pwm-lsb-nanoseconds" <ns> "PWM Nanoseconds for LSB")
+            .default_value("130").required(false))
     .arg(
         arg!(
-            --pwm-dither-bits <VAL> "[0,2] Time dithering of lower bits")
-            .default_value("0"))
+            --"pwm-dither-bits" <VAL> "[0,2] Time dithering of lower bits")
+            .default_value("0").required(false))
     .arg(
         arg!(
-            --panel-type <name> "Needed to initialize special panels. Supported: 'FM6126A', 'FM6127'")
-            .default_value(""))
+            --"panel-type" <name> "Needed to initialize special panels. Supported: 'FM6126A', 'FM6127'")
+            .default_value("").required(false))
     .arg(
         arg!(
-            --slowdown-gpio <VAL> "[0,4] Slowdown GPIO. Needed for faster Pis/slower panels")
-            .default_value("1"))
+            --"slowdown-gpio" <VAL> "[0,4] Slowdown GPIO. Needed for faster Pis/slower panels")
+            .default_value("1").required(false))
 
     // Flags
     .arg(
         arg!(
-            --show-refresh "Show refresh rate"))
+            --"show-refresh" "Show refresh rate"))
     .arg(
         arg!(
             --inverse "Switch if your matrix has inverse colors on"))
     .arg(
         arg!(
-            --no-hardware-pulse "Don't use hardware pin-pulse generation"))
+            --"no-hardware-pulse" "Don't use hardware pin-pulse generation"))
     .arg(
         arg!(
             --daemon "Make the process run in the background as daemon"))
     .arg(
         arg!(
-            --no-drop-privs "Don't drop privileges from 'root' after initializing the hardware"))
+            --"no-drop-privs" "Don't drop privileges from 'root' after initializing the hardware"))
 }
 
 /// Given the parsed matches, returns `(LedMatrixOptions, LedRuntimeOptions)`
