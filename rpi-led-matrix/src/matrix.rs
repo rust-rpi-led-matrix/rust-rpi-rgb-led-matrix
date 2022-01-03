@@ -111,7 +111,7 @@ impl DrawTarget for LedCanvas {
     where
         I: IntoIterator<Item = Pixel<Self::Color>>,
     {
-        for px in pixels.into_iter() {
+        for px in pixels {
             self.set(px.0.x, px.0.y, &px.1.into());
         }
         Ok(())

@@ -3,7 +3,9 @@
 use crate::options::{LedMatrixOptions, LedRuntimeOptions};
 use clap::{arg, App};
 
-/// Given a clap App, adds arguments specific to the matrix initialization.
+/// Given a clap App, adds arguments specific to the matrix initialization and returns
+/// a new [`App`](clap::App).
+#[must_use]
 pub fn add_matrix_args(app: App<'static>) -> App<'static> {
     app
     .arg(
