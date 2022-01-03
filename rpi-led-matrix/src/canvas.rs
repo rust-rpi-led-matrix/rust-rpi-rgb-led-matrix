@@ -161,6 +161,7 @@ mod tests {
     }
 
     #[test]
+    #[serial_test::serial]
     fn size() {
         let matrix = led_matrix();
         let canvas = matrix.canvas();
@@ -168,6 +169,7 @@ mod tests {
     }
 
     #[test]
+    #[serial_test::serial]
     fn draw_line() {
         let matrix = led_matrix();
         let mut canvas = matrix.canvas();
@@ -187,6 +189,7 @@ mod tests {
     }
 
     #[test]
+    #[serial_test::serial]
     fn draw_circle() {
         let matrix = led_matrix();
         let mut canvas = matrix.canvas();
@@ -209,6 +212,7 @@ mod tests {
     }
 
     #[test]
+    #[serial_test::serial]
     fn gradient() {
         let matrix = led_matrix();
         let mut canvas = matrix.canvas();
@@ -232,6 +236,7 @@ mod tests {
     }
 
     #[test]
+    #[serial_test::serial]
     fn canvas_swap() {
         let matrix = led_matrix();
         let mut canvas = matrix.canvas();

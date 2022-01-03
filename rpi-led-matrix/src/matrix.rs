@@ -148,6 +148,7 @@ mod tests {
     }
 
     #[test]
+    #[serial_test::serial]
     fn matrix_create() {
         let _matrix = led_matrix();
     }

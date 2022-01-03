@@ -167,6 +167,7 @@ mod tests {
     use clap::App;
 
     #[test]
+    #[serial_test::serial]
     fn matrix_args_add() {
         let app = add_matrix_args(App::new("test"));
         let matches = app.get_matches_from(vec!["app"]);
@@ -174,6 +175,7 @@ mod tests {
     }
 
     #[test]
+    #[serial_test::serial]
     fn matrix_args_clap_basic() {
         let app = add_matrix_args(App::new("test"));
         let matches = app.get_matches_from(vec!["app", "--limit-refresh", "42"]);
@@ -182,6 +184,7 @@ mod tests {
     }
 
     #[test]
+    #[serial_test::serial]
     fn matrix_args_to_options() {
         let app = add_matrix_args(App::new("test"));
         let matches = app.get_matches_from(vec!["app", "--pwm-dither-bits", "42"]);
@@ -190,6 +193,7 @@ mod tests {
     }
 
     #[test]
+    #[serial_test::serial]
     fn matrix_args_to_rt_options() {
         let app = add_matrix_args(App::new("test"));
         let matches = app.get_matches_from(vec!["app", "--slowdown-gpio", "4"]);
@@ -198,6 +202,7 @@ mod tests {
     }
 
     #[test]
+    #[serial_test::serial]
     fn matrix_args_to_rt_options_flag() {
         let app = add_matrix_args(App::new("test"));
         let matches = app.get_matches_from(vec!["app", "--daemon"]);

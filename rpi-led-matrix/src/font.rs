@@ -49,6 +49,7 @@ mod test {
     use std::{thread, time};
 
     #[test]
+    #[serial_test::serial]
     fn draw_text() {
         let matrix = LedMatrix::new(None, None).unwrap();
         let mut canvas = matrix.canvas();

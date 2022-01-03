@@ -16,7 +16,11 @@ fn main() {
         App::new("C++ Library Example")
             .about("shows basic usage of matrix arguments")
             .version(crate_version!())
-            .arg(arg!(--loops <LOOPS> "number of cycles to spin the line").default_value("5")),
+            .arg(
+                arg!(--loops <LOOPS> "number of cycles to spin the line")
+                    .default_value("5")
+                    .required(false),
+            ),
     );
     let matches = app.get_matches();
     let (options, rt_options) = args::matrix_options_from_args(&matches);
