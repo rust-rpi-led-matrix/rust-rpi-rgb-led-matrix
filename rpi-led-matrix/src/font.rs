@@ -20,13 +20,13 @@ impl LedFont {
             Some(s) => s,
             None => return Err("Couldn't convert path to str"),
         };
-        let cstring = if let Ok(cstring) = CString::new(string) {
-            cstring
+        let string = if let Ok(string) = CString::new(string) {
+            string
         } else {
             return Err("Failed to convert path to CString");
         };
 
-        let handle = unsafe { ffi::load_font(cstring.as_ptr()) };
+        let handle = unsafe { ffi::load_font(string.as_ptr()) };
 
         if handle.is_null() {
             Err("Couldn't load font")

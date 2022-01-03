@@ -110,7 +110,7 @@ impl LedCanvas {
         kerning_offset: i32,
         vertical: bool,
     ) -> i32 {
-        let ctext = CString::new(text).expect("given string failed to convert into a CString");
+        let text = CString::new(text).expect("given string failed to convert into a CString");
         unsafe {
             if vertical {
                 ffi::vertical_draw_text(
@@ -121,7 +121,7 @@ impl LedCanvas {
                     color.red,
                     color.green,
                     color.blue,
-                    ctext.as_ptr(),
+                    text.as_ptr(),
                     kerning_offset as c_int,
                 ) as i32
             } else {
@@ -133,7 +133,7 @@ impl LedCanvas {
                     color.red,
                     color.green,
                     color.blue,
-                    ctext.as_ptr(),
+                    text.as_ptr(),
                     kerning_offset as c_int,
                 ) as i32
             }

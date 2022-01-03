@@ -2,9 +2,9 @@ name: Rust
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
+    branches: [main]
 
 env:
   CARGO_TERM_COLOR: always
@@ -12,40 +12,54 @@ env:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      RUSTFLAGS: "-D warnings"
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Build - All Features
-      run: RUSTFLAGS="-D warnings" cargo build --verbose --all-features
-    - name: Build - Default
-      run: RUSTFLAGS="-D warnings" cargo build --verbose --features="c-stubs"
-    - name: Build - No Default Features
-      run: RUSTFLAGS="-D warnings" cargo build --verbose --no-default-features --features="c-stubs"
-    - name: Build - Check Examples & Tests
-      run: RUSTFLAGS="-D warnings" cargo check --verbose --all-features --tests --examples
+      - uses: actions/checkout@v2
+        with:
+          submodules: "recursive"
+      - uses: actions-rs/toolchain@v1
+        with:
+          toolchain: nightly
+          override: true
+
+      - name: Build - All Features
+        run: cargo build --verbose --all-features
+      - name: Build - Default
+        run: cargo build --verbose --features="c-stubs"
+      - name: Build - No Default Features
+        run: cargo build --verbose --no-default-features --features="c-stubs"
+      - name: Build - Check Examples & Tests
+        run: cargo check --verbose --all-features --tests --examples
 
   clippy:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v1
-    - uses: actions-rs/toolchain@v1
-      with:
+      - uses: actions/checkout@v2
+        with:
+          submodules: "recursive"
+      - uses: actions-rs/toolchain@v1
+        with:
           toolchain: nightly
           components: clippy
           override: true
-    - uses: actions-rs/clippy-check@v1
-      with:
-        token: ${{ secrets.GITHUB_TOKEN }}
-        args: --all-features
+      - uses: actions-rs/clippy-check@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          args: --all-features -- -W clippy::pedantic -W clippy::nursery -W clippy::cargo -A clippy::let_underscore_drop -A clippy::cast_possible_wrap -A clippy::module_name_repetitions
 
   format:
     runs-on: ubuntu-latest
+    env:
+      RUSTFLAGS: "-D warnings"
+
     steps:
       - uses: actions/checkout@v2
       - uses: actions-rs/toolchain@v1
         with:
-            toolchain: nightly
-            components: rustfmt
-            override: true
+          toolchain: nightly
+          components: rustfmt
+          override: true
       - run: rustfmt --check --edition 2018 ./*/src/* ./*/examples/* ./*/build.rs

@@ -104,11 +104,11 @@ impl LedMatrixOptions {
     /// # Errors
     /// If the given `brightness` is not in the range [1,100].
     pub fn set_brightness(&mut self, brightness: u8) -> LedMatrixOptionsResult {
-        if !(1..=100).contains(&brightness) {
-            Err("Brightness can only have value between 1 and 100 inclusive")
-        } else {
+        if (1..=100).contains(&brightness) {
             self.0.brightness = brightness as c_int;
             Ok(())
+        } else {
+            Err("Brightness can only have value between 1 and 100 inclusive")
         }
     }
 

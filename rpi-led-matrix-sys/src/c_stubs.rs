@@ -1,4 +1,6 @@
 //! rust implemented stubs of the C++ library for testing on non rpi hosts
+#![allow(clippy::wildcard_imports)]
+#![allow(clippy::missing_const_for_fn)]
 use crate::*;
 use libc::{c_char, c_int};
 
