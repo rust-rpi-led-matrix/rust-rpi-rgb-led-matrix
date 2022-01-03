@@ -6,9 +6,9 @@
 //! use rpi_led_matrix::{LedMatrix, LedColor};
 //! let matrix = LedMatrix::new(None, None).unwrap();
 //! let mut canvas = matrix.offscreen_canvas();
-//! for red in 0..255 {
-//!     for green in 0..255 {
-//!         for blue in 0..255 {
+//! for red in (0..255).step_by(16) {
+//!     for green in (0..255).step_by(16) {
+//!         for blue in (0..255).step_by(16) {
 //!             canvas.fill(&LedColor { red, green, blue });
 //!             canvas = matrix.swap(canvas);
 //!         }
