@@ -9,7 +9,7 @@ use crate::{LedColor, LedFont};
 /// ```
 /// use rpi_led_matrix::{LedMatrix, LedColor};
 /// let matrix = LedMatrix::new(None, None).unwrap();
-/// let canvas = matrix.canvas();
+/// let mut canvas = matrix.canvas();
 /// canvas.fill(&LedColor { red: 128, green: 128, blue: 128 });
 /// ```
 pub struct LedCanvas {
