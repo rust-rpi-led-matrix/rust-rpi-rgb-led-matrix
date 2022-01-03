@@ -1,7 +1,13 @@
 use crate::ffi;
 use crate::{LedCanvas, LedMatrixOptions, LedRuntimeOptions};
 #[cfg(feature = "embeddedgraphics")]
-use embedded_graphics::{drawable::Pixel, geometry::Size, pixelcolor::PixelColor, DrawTarget};
+use embedded_graphics::{
+    draw_target::DrawTarget,
+    geometry::{Dimensions, Point, Size},
+    pixelcolor::Rgb888,
+    primitives::Rectangle,
+    Pixel,
+};
 
 /// The Rust handle for the RGB matrix.
 ///
@@ -97,26 +103,31 @@ impl Drop for LedMatrix {
 }
 
 #[cfg(feature = "embeddedgraphics")]
-impl<C> DrawTarget<C> for LedCanvas
-where
-    C: Into<crate::LedColor> + PixelColor,
-{
+impl DrawTarget for LedCanvas {
+    type Color = Rgb888;
     type Error = core::convert::Infallible;
 
-    fn draw_pixel(&mut self, item: Pixel<C>) -> Result<(), Self::Error> {
-        let Pixel(point, color) = item;
-        self.set(point.x, point.y, &color.into());
+    fn draw_iter<I>(&mut self, pixels: I) -> Result<(), Self::Error>
+    where
+        I: IntoIterator<Item = Pixel<Self::Color>>,
+    {
+        for px in pixels.into_iter() {
+            self.set(px.0.x, px.0.y, &px.1.into());
+        }
         Ok(())
     }
 
-    fn size(&self) -> Size {
-        let size = self.canvas_size();
-        Size::new(size.0 as u32, size.1 as u32)
-    }
-
-    fn clear(&mut self, color: C) -> Result<(), Self::Error> {
+    fn clear(&mut self, color: Self::Color) -> Result<(), Self::Error> {
         self.fill(&color.into());
         Ok(())
+    }
+}
+
+#[cfg(feature = "embeddedgraphics")]
+impl Dimensions for LedCanvas {
+    fn bounding_box(&self) -> Rectangle {
+        let size = self.canvas_size();
+        Rectangle::new(Point::new(0, 0), Size::new(size.0 as u32, size.1 as u32))
     }
 }
 
