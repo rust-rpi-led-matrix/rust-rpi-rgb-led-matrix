@@ -168,14 +168,14 @@ mod tests {
     fn matrix_args_add() {
         let app = add_matrix_args(App::new("test"));
         let matches = app.get_matches_from(vec!["app"]);
-        let _slowdown = value_t!(matches, "slowdown-gpio", u32).unwrap();
+        let _slowdown: u32 = matches.value_of_t("slowdown-gpio").unwrap();
     }
 
     #[test]
     fn matrix_args_clap_basic() {
         let app = add_matrix_args(App::new("test"));
         let matches = app.get_matches_from(vec!["app", "--limit-refresh", "42"]);
-        let slowdown = value_t!(matches, "limit-refresh", u32).unwrap();
+        let slowdown: u32 = matches.value_of_t("limit-refresh").unwrap();
         assert_eq!(slowdown, 42);
     }
 

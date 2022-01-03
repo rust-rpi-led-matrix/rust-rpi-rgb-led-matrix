@@ -1,11 +1,11 @@
 /// Example showing some basic usage of the C++ library.
-use clap::{crate_version, App, Arg};
+use clap::{arg, crate_version, App};
 use embedded_graphics::{
-    fonts::{Font6x6, Text},
-    pixelcolor::{BinaryColor, Rgb888},
+    mono_font::{ascii::FONT_4X6, MonoTextStyle},
+    pixelcolor::Rgb888,
     prelude::*,
-    primitives::{Circle, Rectangle, Triangle},
-    style::{PrimitiveStyle, TextStyle},
+    primitives::{Circle, PrimitiveStyle, Rectangle, Triangle},
+    text::Text,
 };
 use rpi_led_matrix::{args, LedMatrix};
 
@@ -16,10 +16,7 @@ fn main() {
         App::new("C++ Library Example")
             .about("shows basic usage of matrix arguments")
             .version(crate_version!())
-            .arg(
-                Arg::from_usage("--loops=[LOOPS] 'number of cycles to spin the line'")
-                    .default_value("5"),
-            ),
+            .arg(arg!(--loops <LOOPS> "number of cycles to spin the line").default_value("5")),
     );
     let matches = app.get_matches();
     let (options, rt_options) = args::matrix_options_from_args(&matches);
@@ -30,14 +27,14 @@ fn main() {
     // Create styles used by the drawing operations.
     let thin_stroke = PrimitiveStyle::with_stroke(Rgb888::new(64, 0, 128), 1);
     let fill = PrimitiveStyle::with_fill(Rgb888::new(0, 128, 32));
-    let text_style = TextStyle::new(Font6x6, BinaryColor::On);
+    let text_style = MonoTextStyle::new(&FONT_4X6, Rgb888::new(0xff, 0xff, 0xff));
 
     let yoffset = 10;
 
     // Draw a 3px wide outline around the matrix.
     // let display_size = canvas.size();
     let (width, height) = canvas.canvas_size();
-    Rectangle::new(
+    Rectangle::with_corners(
         Point::zero(),
         Point::new(width as i32 - 1, height as i32 - 1),
     )
@@ -56,7 +53,7 @@ fn main() {
     .unwrap();
 
     // Draw a filled square
-    Rectangle::new(Point::new(52, yoffset), Point::new(16, 16))
+    Rectangle::with_corners(Point::new(52, yoffset), Point::new(16, 16))
         .into_styled(fill)
         .draw(&mut canvas)
         .unwrap();
@@ -69,14 +66,12 @@ fn main() {
 
     // Draw centered text.
     let eg_text = "EG+";
-    Text::new(eg_text, Point::new(16, 16))
-        .into_styled(text_style)
+    Text::new(eg_text, Point::new(16, 16), text_style)
         .draw(&mut canvas)
         .unwrap();
 
     let rpi_text = "RPi";
-    Text::new(rpi_text, Point::new(16, 22))
-        .into_styled(text_style)
+    Text::new(rpi_text, Point::new(16, 22), text_style)
         .draw(&mut canvas)
         .unwrap();
 
