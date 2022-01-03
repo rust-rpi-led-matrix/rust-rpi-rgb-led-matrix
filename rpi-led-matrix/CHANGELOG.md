@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- Took a lot of clippy suggestions. Added `#[must_use]` where it made sense.
+  Most of the reset was documentation changes and moving from `unwrap` to `expect`.
+
+## [0.3.1] - 2021-12-04
+
+- Cosmetic README/documentation cleanups
+
+## [0.3.0] - 2021-12-04
+
 - Encapsulated the C++ library in a `-sys` crate
 
 ## [0.2.2] - 2020-09-25
