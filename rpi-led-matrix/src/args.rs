@@ -1,96 +1,96 @@
 //! Provides functions to add arguments to control various parameters of your
 //! RGB LED matrix.
 use crate::options::{LedMatrixOptions, LedRuntimeOptions};
-use clap::{value_t, App, Arg};
+use clap::{arg, App};
 
 /// Given a clap App, adds arguments specific to the matrix initialization.
-pub fn add_matrix_args(app: App<'static, 'static>) -> App<'static, 'static> {
+pub fn add_matrix_args(app: App<'static>) -> App<'static> {
     app
     .arg(
-        Arg::from_usage(
-            "--gpio-mapping=[name] 'Name of GPIO mapping used'")
+        arg!(
+            --gpio-mapping <name> "'Name of GPIO mapping used'")
             .default_value("Regular"))
     .arg(
-        Arg::from_usage(
-            "--rows=[rows] 'Panel rows. Typically 8, 16, 32 or 64'")
+        arg!(
+            --rows <rows> "Panel rows. Typically 8, 16, 32 or 64")
             .default_value("32"))
     .arg(
-        Arg::from_usage(
-            "--cols=[cols] 'Panel columns. Typically 32 or 64'")
+        arg!(
+            --cols <cols> "Panel columns. Typically 32 or 64")
             .default_value("32"))
     .arg(
-        Arg::from_usage(
-            "--chain=[chained] 'Number of daisy-chained panels'")
+        arg!(
+            --chain <chained> "Number of daisy-chained panels")
             .default_value("1"))
     .arg(
-        Arg::from_usage(
-            "--parallel=[parallel] 'Parallel chains. range=1..3'")
+        arg!(
+            --parallel <parallel> "Parallel chains. range=1..3")
             .default_value("1"))
     .arg(
-        Arg::from_usage(
-            "--multiplexing=[0..16] 'Mux type: 0=direct, 1=Stripe, 2=Checkered, 3=Spiral, 4=ZStripe, 5=ZnMirrorZStripe, 6=coreman, 7=Kaler2Scan, 8=ZStripeUneven, 9=P10-128x4-Z, 10=QiangLiQ8, 11=InversedZStripe, 12=P10Outdoor1R1G1-1, 13=P10Outdoor1R1G1-2, 14=P10Outdoor1R1G1-3, 15=P10CoremanMapper, 16=P8Outdoor1R1G1'")
+        arg!(
+            --multiplexing <VAL> "[0,16] Mux type: 0=direct, 1=Stripe, 2=Checkered, 3=Spiral, 4=ZStripe, 5=ZnMirrorZStripe, 6=coreman, 7=Kaler2Scan, 8=ZStripeUneven, 9=P10-128x4-Z, 10=QiangLiQ8, 11=InversedZStripe, 12=P10Outdoor1R1G1-1, 13=P10Outdoor1R1G1-2, 14=P10Outdoor1R1G1-3, 15=P10CoremanMapper, 16=P8Outdoor1R1G1")
             .default_value("0"))
     .arg(
-        Arg::from_usage(
-            "--pixel-mapper 'Semicolon-separated list of pixel-mappers to arrange pixels. Optional params after a colon e.g. \"U-mapper;Rotate:90\"\"Available: \"Mirror\", \"Rotate\", \"U-mapper\", \"V-mapper\"'")
+        arg!(
+            --pixel-mapper "Semicolon-separated list of pixel-mappers to arrange pixels. Optional params after a colon e.g. \"U-mapper;Rotate:90\"\"Available: \"Mirror\", \"Rotate\", \"U-mapper\", \"V-mapper\"")
             .default_value(""))
     .arg(
-        Arg::from_usage(
-            "--pwm-bits=[1..11] 'PWM bits'")
+        arg!(
+            --pwm-bits <VAL> "[1,11] PWM bits")
             .default_value("11"))
     .arg(
-        Arg::from_usage(
-            "--brightness=[percent] 'Brightness in percent'")
+        arg!(
+            --brightness <percent> "Brightness in percent")
             .default_value("100"))
     .arg(
-        Arg::from_usage(
-            "--scan-mode=[0..1] '0 = progressive; 1 = interlaced'")
+        arg!(
+            --scan-mode <VAL> "0 = progressive; 1 = interlaced")
             .default_value("0"))
     .arg(
-        Arg::from_usage(
-            "--row-addr-type=[0..4] '0 = default; 1 = AB-addressed panels; 2 = direct row select; 3 = ABC-addressed panels; 4 = ABC Shift + DE direct'")
+        arg!(
+            --row-addr-type <VAL> "0 = default; 1 = AB-addressed panels; 2 = direct row select; 3 = ABC-addressed panels; 4 = ABC Shift + DE direct")
             .default_value("0"))
     .arg(
-        Arg::from_usage(
-            "--limit-refresh=[Hz] 'Limit refresh rate to this frequency in Hz. Useful to keep a constant refresh rate on loaded system. 0=no limit'")
+        arg!(
+            --limit-refresh <Hz> "Limit refresh rate to this frequency in Hz. Useful to keep a constant refresh rate on loaded system. 0=no limit")
             .default_value("0"))
     .arg(
-        Arg::from_usage(
+        arg!(
             "--rgb-sequence 'Switch if your matrix has led colors swapped'")
             .default_value("RGB"))
     .arg(
-        Arg::from_usage(
-            "--pwm-lsb-nanoseconds=[ns] 'PWM Nanoseconds for LSB'")
+        arg!(
+            --pwm-lsb-nanoseconds <ns> "PWM Nanoseconds for LSB")
             .default_value("130"))
     .arg(
-        Arg::from_usage(
-            "--pwm-dither-bits=[0..2] 'Time dithering of lower bits'")
+        arg!(
+            --pwm-dither-bits <VAL> "[0,2] Time dithering of lower bits")
             .default_value("0"))
     .arg(
-        Arg::from_usage(
-            "--panel-type=[name] 'Needed to initialize special panels. Supported: 'FM6126A', 'FM6127''")
+        arg!(
+            --panel-type <name> "Needed to initialize special panels. Supported: 'FM6126A', 'FM6127'")
             .default_value(""))
     .arg(
-        Arg::from_usage(
-            "--slowdown-gpio=[0..4] 'Slowdown GPIO. Needed for faster Pis/slower panels'")
+        arg!(
+            --slowdown-gpio <VAL> "[0,4] Slowdown GPIO. Needed for faster Pis/slower panels")
             .default_value("1"))
 
     // Flags
     .arg(
-        Arg::from_usage(
-            "--show-refresh 'Show refresh rate'"))
+        arg!(
+            --show-refresh "Show refresh rate"))
     .arg(
-        Arg::from_usage(
-            "--inverse 'Switch if your matrix has inverse colors on'"))
+        arg!(
+            --inverse "Switch if your matrix has inverse colors on"))
     .arg(
-        Arg::from_usage(
-            "--no-hardware-pulse 'Don't use hardware pin-pulse generation'"))
+        arg!(
+            --no-hardware-pulse "Don't use hardware pin-pulse generation"))
     .arg(
-        Arg::from_usage(
-            "--daemon 'Make the process run in the background as daemon'"))
+        arg!(
+            --daemon "Make the process run in the background as daemon"))
     .arg(
-        Arg::from_usage(
-            "--no-drop-privs 'Don't drop privileges from 'root' after initializing the hardware'"))
+        arg!(
+            --no-drop-privs "Don't drop privileges from 'root' after initializing the hardware"))
 }
 
 /// Given the parsed matches, returns `(LedMatrixOptions, LedRuntimeOptions)`
@@ -106,22 +106,22 @@ pub fn matrix_options_from_args(
     let mut rt_options = LedRuntimeOptions::new();
 
     let gpio_mapping = parsed_args.value_of("gpio-mapping").expect("Invalid value given for gpio_mapping");
-    let rows = value_t!(parsed_args, "rows", u32).expect("Invalid value given for rows");
-    let cols = value_t!(parsed_args, "cols", u32).expect("Invalid value given for cols");
-    let chain = value_t!(parsed_args, "chain", u32).expect("Invalid value given for chain");
-    let parallel = value_t!(parsed_args, "parallel", u32).expect("Invalid value given for parallel");
-    let multiplexing = value_t!(parsed_args, "multiplexing", u32).expect("Invalid value given for multiplexing");
+    let rows: u32 = parsed_args.value_of_t("rows").expect("Invalid value given for rows");
+    let cols: u32 = parsed_args.value_of_t("cols").expect("Invalid value given for cols");
+    let chain: u32 = parsed_args.value_of_t("chain").expect("Invalid value given for chain");
+    let parallel: u32 = parsed_args.value_of_t("parallel").expect("Invalid value given for parallel");
+    let multiplexing: u32 = parsed_args.value_of_t("multiplexing").expect("Invalid value given for multiplexing");
     let pixel_mapper = parsed_args.value_of("pixel-mapper").expect("Invalid value given for pixel_mapper");
-    let pwm_bits = value_t!(parsed_args, "pwm-bits", u8).expect("Invalid value given for pwm_bits");
-    let brightness = value_t!(parsed_args, "brightness", u8).expect("Invalid value given for brightness");
-    let scan_mode = value_t!(parsed_args, "scan-mode", u32).expect("Invalid value given for scan_mode");
-    let row_addr_type = value_t!(parsed_args, "row-addr-type", u32).expect("Invalid value given for row_addr_type");
-    let limit_refresh = value_t!(parsed_args, "limit-refresh", u32).expect("Invalid value given for limit_refresh");
+    let pwm_bits: u8 = parsed_args.value_of_t("pwm-bits").expect("Invalid value given for pwm_bits");
+    let brightness: u8 = parsed_args.value_of_t("brightness").expect("Invalid value given for brightness");
+    let scan_mode: u32 = parsed_args.value_of_t("scan-mode").expect("Invalid value given for scan_mode");
+    let row_addr_type: u32 = parsed_args.value_of_t("row-addr-type").expect("Invalid value given for row_addr_type");
+    let limit_refresh: u32 = parsed_args.value_of_t("limit-refresh").expect("Invalid value given for limit_refresh");
     let rgb_sequence = parsed_args.value_of("rgb-sequence").expect("Invalid value given for rgb_sequence");
-    let pwm_lsb_nanoseconds = value_t!(parsed_args, "pwm-lsb-nanoseconds", u32).expect("Invalid value given for pwm_lsb_nanoseconds");
-    let pwm_dither_bits = value_t!(parsed_args, "pwm-dither-bits", u32).expect("Invalid value given for pwm_dither_bits");
+    let pwm_lsb_nanoseconds: u32 = parsed_args.value_of_t("pwm-lsb-nanoseconds").expect("Invalid value given for pwm_lsb_nanoseconds");
+    let pwm_dither_bits: u32 = parsed_args.value_of_t("pwm-dither-bits").expect("Invalid value given for pwm_dither_bits");
     let panel_type = parsed_args.value_of("panel-type").expect("Invalid value given for panel_type");
-    let slowdown_gpio = value_t!(parsed_args, "slowdown-gpio", u32).expect("Invalid value given for slowdown_gpio");
+    let slowdown_gpio: u32 = parsed_args.value_of_t("slowdown-gpio").expect("Invalid value given for slowdown_gpio");
 
     // flags
     let show_refresh: bool = parsed_args.is_present("show-refresh");
