@@ -1,7 +1,7 @@
 use crate::ffi;
 use crate::{LedCanvas, LedMatrixOptions, LedRuntimeOptions};
 #[cfg(feature = "embeddedgraphics")]
-use embedded_graphics::{
+use embedded_graphics_core::{
     draw_target::DrawTarget,
     geometry::{Dimensions, Point, Size},
     pixelcolor::Rgb888,

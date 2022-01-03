@@ -18,12 +18,15 @@ categories = ["embedded", "no-std"]
 [dependencies]
 libc = "0.2"
 rpi-led-matrix-sys = { version = "0.1", path = "../rpi-led-matrix-sys" }
-embedded-graphics = { version = "0.7", optional = true }
+embedded-graphics-core = { version = "0.3", optional = true }
 clap = { version = "3.0", optional = true, features = ["cargo"] }
+
+[dev-dependencies]
+embedded-graphics = "0.7"
 
 [features]
 default = ["embeddedgraphics"]
-embeddedgraphics = ["embedded-graphics"]
+embeddedgraphics = ["embedded-graphics-core"]
 args = ["clap"]
 c-stubs = ["rpi-led-matrix-sys/c-stubs"]
 
