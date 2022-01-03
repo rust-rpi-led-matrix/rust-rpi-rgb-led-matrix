@@ -250,7 +250,7 @@ mod tests {
         color.red = 0;
         canvas.fill(&color);
         thread::sleep(time::Duration::new(0, 500000000));
-        matrix.swap(canvas);
+        let _ = matrix.swap(canvas);
         thread::sleep(time::Duration::new(0, 500000000));
     }
 }
