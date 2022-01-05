@@ -22,6 +22,10 @@ impl LedMatrixOptions {
     /// options.set_hardware_mapping("adafruit-hat-pwm");
     /// let matrix = LedMatrix::new(Some(options), None).unwrap();
     /// ```
+    ///
+    /// # Panics
+    /// If for some reason the conversion from constant literal strings to `CString` fails.
+    /// It should never fail but we do `.unwrap()` it.
     #[must_use]
     pub fn new() -> Self {
         Self(ffi::CLedMatrixOptions {
@@ -89,7 +93,7 @@ impl LedMatrixOptions {
         if pwm_bits > 11 {
             Err("Pwm bits can only have value between 0 and 11 inclusive")
         } else {
-            self.0.pwm_bits = pwm_bits as c_int;
+            self.0.pwm_bits = c_int::from(pwm_bits);
             Ok(())
         }
     }
@@ -105,7 +109,7 @@ impl LedMatrixOptions {
     /// If the given `brightness` is not in the range \[1,100\].
     pub fn set_brightness(&mut self, brightness: u8) -> LedMatrixOptionsResult {
         if (1..=100).contains(&brightness) {
-            self.0.brightness = brightness as c_int;
+            self.0.brightness = c_int::from(brightness);
             Ok(())
         } else {
             Err("Brightness can only have value between 1 and 100 inclusive")

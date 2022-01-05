@@ -6,6 +6,7 @@ use clap::{arg, App};
 /// Given a clap App, adds arguments specific to the matrix initialization and returns
 /// a new [`App`](clap::App).
 #[must_use]
+#[allow(clippy::cognitive_complexity)]
 pub fn add_matrix_args(app: App<'static>) -> App<'static> {
     app
     .arg(

@@ -87,6 +87,7 @@ impl LedMatrix {
     /// }
     /// ```
     #[must_use]
+    #[allow(clippy::needless_pass_by_value)]
     pub fn swap(&self, canvas: LedCanvas) -> LedCanvas {
         let handle = unsafe { ffi::led_matrix_swap_on_vsync(self.handle, canvas.handle) };
 

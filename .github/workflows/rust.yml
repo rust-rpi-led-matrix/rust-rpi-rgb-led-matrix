@@ -48,7 +48,10 @@ jobs:
       - uses: actions-rs/clippy-check@v1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          args: --all-features -- -W clippy::pedantic -W clippy::nursery -W clippy::cargo -A clippy::let_underscore_drop -A clippy::cast_possible_wrap -A clippy::module_name_repetitions -A clippy::debug_assert_with_mut_call
+          args:
+            --all-features -- -W clippy::pedantic -W clippy::nursery -W clippy::cargo
+            -A clippy::let_underscore_drop -A clippy::cast_possible_wrap -A clippy::cast_sign_loss
+            -A clippy::module_name_repetitions -A clippy::debug_assert_with_mut_call
 
   format:
     runs-on: ubuntu-latest
