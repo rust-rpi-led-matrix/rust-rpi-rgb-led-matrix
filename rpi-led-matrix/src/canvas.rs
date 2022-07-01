@@ -24,8 +24,8 @@ impl LedCanvas {
         unsafe {
             ffi::led_canvas_get_size(
                 self.handle,
-                &mut width as *mut c_int,
-                &mut height as *mut c_int,
+                std::ptr::addr_of_mut!(width),
+                std::ptr::addr_of_mut!(height),
             );
         }
         (width as i32, height as i32)

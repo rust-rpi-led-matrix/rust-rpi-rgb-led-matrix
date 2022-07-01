@@ -5,7 +5,7 @@ use embedded_graphics_core::pixelcolor::{
 };
 
 /// The Rust handle representing a color you'd like to display.
-#[derive(Clone, Copy, Debug, PartialEq)]
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub struct LedColor {
     /// the red channel value
     pub red: u8,

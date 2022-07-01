@@ -42,8 +42,8 @@ impl LedMatrix {
 
         let handle = unsafe {
             ffi::led_matrix_create_from_options_and_rt_options(
-                &mut options.0 as *mut ffi::CLedMatrixOptions,
-                &mut rt_options.0 as *mut ffi::CLedRuntimeOptions,
+                std::ptr::addr_of_mut!(options.0),
+                std::ptr::addr_of_mut!(rt_options.0),
             )
         };
 
