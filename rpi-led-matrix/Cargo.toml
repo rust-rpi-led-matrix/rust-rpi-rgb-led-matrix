@@ -23,7 +23,7 @@ clap = { version = "3.0", optional = true, features = ["cargo"] }
 
 [dev-dependencies]
 embedded-graphics = "0.7"
-serial_test = "0.8"
+serial_test = "1.0"
 
 [features]
 default = ["embeddedgraphics"]
