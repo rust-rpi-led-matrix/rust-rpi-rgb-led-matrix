@@ -1,0 +1,37 @@
+name: Update rpi-rgb-led-matrix
+
+on:
+  schedule:
+    # Run weekly
+    - cron: "0 0 * * 0"
+  workflow_dispatch:
+
+jobs:
+  update-rpi-rgb-led-matrix:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v3
+        with:
+          submodules: true
+
+      - name: Update submodule
+        run: |
+          git submodule update --remote
+
+      - name: Set env
+        run: |
+          cd rpi-led-matrix-sys/cpp-library
+          echo "SUBMODULE_SHA=$(git rev-parse HEAD | cut -c 1-6)" >> $GITHUB_ENV
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v5
+        with:
+          add-paths: |
+            rpi-led-matrix-sys/cpp-library
+          title: rpi-rgb-led-matrix Update to ${{env.SUBMODULE_SHA}}
+          body: Update rpi-rgb-led-matrix to ${{env.SUBMODULE_SHA}}
+          commit-message: Update rpi-rgb-led-matrix to ${{env.SUBMODULE_SHA}}
+          branch: update-rpi-rgb-led-matrix-${{env.SUBMODULE_SHA}}
+          delete-branch: true
+          token: ${{ secrets.GITHUB_TOKEN }}
