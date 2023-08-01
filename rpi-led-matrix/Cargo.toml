@@ -18,11 +18,11 @@ categories = ["embedded"]
 [dependencies]
 libc = "0.2"
 rpi-led-matrix-sys = { version = "0.2", path = "../rpi-led-matrix-sys" }
-embedded-graphics-core = { version = "0.3", optional = true }
+embedded-graphics-core = { version = "0.4", optional = true }
 clap = { version = "3.0", optional = true, features = ["cargo"] }
 
 [dev-dependencies]
-embedded-graphics = "0.7"
+embedded-graphics = "0.8"
 serial_test = "0.8"
 
 [features]
