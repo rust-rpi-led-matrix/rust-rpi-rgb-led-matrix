@@ -16,6 +16,16 @@ pub struct LedCanvas {
     pub(crate) handle: *mut ffi::CLedCanvas,
 }
 
+/// Implements both the [`Send`] and [`Sync`] traits for [`LedCanvas`].
+///
+/// The underlying handle referenced by this FFI is [heap-allocated],
+/// allowing safe ownership transfer between threads. Additionally,
+/// references to this handle can be safely shared across thread boundaries.
+///
+/// [heap-allocated]: https://github.com/hzeller/rpi-rgb-led-matrix/blob/0ff6a6973f95d14e3206bcef1201237097fa8edd/lib/led-matrix.cc#L501
+unsafe impl Send for LedCanvas {}
+unsafe impl Sync for LedCanvas {}
+
 impl LedCanvas {
     /// Retrieves the width & height of the canvas
     #[must_use]

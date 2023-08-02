@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Link to pure rust rewrite of `rpi-led-matrix`
 - dependabot updates of CI only crates
 - Update `embedded-graphics-core` to `0.4` and `embedded-graphics` to `0.8`
+- Implement Send + Sync for LedCanvas
 
 ## [0.4.0] - 2022-01-05
 
