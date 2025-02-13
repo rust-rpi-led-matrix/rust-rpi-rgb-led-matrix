@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## UNRELEASED
 
+- While cross-compiling, pass the correct CC and CXX to the Makefile.
+
 ## [0.2.1] - 2022-01-05
 
 - tweaked categories and reduced the size of the package by excluding unneeded parts of the c++ library.

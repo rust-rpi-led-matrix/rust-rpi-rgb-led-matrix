@@ -63,7 +63,13 @@ fn main() {
         [cpp_lib_out_dir.to_str().unwrap(), "lib"].iter().collect();
     std::env::set_current_dir(&cpp_lib_lib_out_dir).unwrap();
     println!("building from {}", cpp_lib_out_dir.display());
+    let cc_path = cc::Build::new().get_compiler();
+    let cxx_path = cc::Build::new().cpp(true).get_compiler();
     let status = Command::new("make")
+        .args([
+            format!("CC={}", cc_path.path().to_str().unwrap()),
+            format!("CXX={}", cxx_path.path().to_str().unwrap()),
+        ])
         .status()
         .expect("process failed to execute");
     assert!(status.success(), "failed to compile the C++ library");
